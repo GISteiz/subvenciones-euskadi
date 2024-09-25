@@ -1,6 +1,3 @@
----
----
-
 # Subvenciones en Euskadi
 
 Datos obtenidos de la API de subvenciones concedidas del portal [Open Data Euskadi](https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/).
@@ -47,8 +44,4 @@ const grantTable = Inputs.table(grantedBenefits, {
 
 <div class="grid grid-cols-1">
   <div class="card">${grantTable}</div>
-</div>
-
-<div class="grid grid-cols-1">
-  <div class="card" style="text-align: end;">Desarrollado por <br><img src="assets/images/logo_gisteiz.svg" height="60px"></div>
 </div>
