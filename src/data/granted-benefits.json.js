@@ -19,4 +19,11 @@ const totalGrants = page1.totalItems
 
 const allGrants = await json(buildUrl(totalGrants, pages, from, to));
 
+allGrants["granted-benefits"].map(grant => {
+  grant["convener_name"] = grant["convener"]["organization"]["nameByLang"]["SPANISH"];
+  grant["beneficiary_name"] = grant["beneficiary"]["name"];
+  grant["granted_date"] = grant["granted"]["date"];
+  grant["granted_amount"] = grant["granted"]["amount"];
+})
+
 process.stdout.write(JSON.stringify(allGrants["granted-benefits"]));
