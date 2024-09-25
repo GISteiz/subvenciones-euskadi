@@ -11,3 +11,7 @@ const granted_benefits = FileAttachment("./data/granted-benefits.json").json();
 ```js
 display(granted_benefits);
 ```
+
+<div class="grid grid-cols-1">
+  <div class="card">${Inputs.table(granted_benefits)}</div>
+</div>
