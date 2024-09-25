@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="160mm"
+   height="75mm"
+   viewBox="0 0 160 75"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="logo_gisteiz.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   inkscape:export-filename="logo2.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     showguides="true"
+     inkscape:zoom="1.4324916"
+     inkscape:cx="272.60195"
+     inkscape:cy="117.62722"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4727"
+       originx="0"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#1c4ea9;fill-opacity:1;stroke-width:0.213934;stroke-miterlimit:10"
+       id="rect234"
+       width="160.42302"
+       height="75.603378"
+       x="-0.17701244"
+       y="-0.36555839" />
+    <g
+       id="g4725"
+       transform="translate(1.4235142,-1.7724843)">
+      <g
+         id="g4743"
+         transform="translate(-19.068137,-0.78362207)">
+        <text
+           xml:space="preserve"
+           style="font-size:35.2778px;fill:#000000;fill-opacity:1;stroke-width:0.25;stroke-miterlimit:10"
+           x="70.371269"
+           y="54.486938"
+           id="text4278"><tspan
+             sodipodi:role="line"
+             id="tspan4276"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.2778px;font-family:'Protest Strike';-inkscape-font-specification:'Protest Strike';fill:#000000;fill-opacity:1;stroke-width:0.25"
+             x="70.371269"
+             y="54.486938">GISteiz</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:17.6389px;letter-spacing:0.635px;fill:#ffffff;fill-opacity:1;stroke-width:0.25;stroke-miterlimit:10"
+           x="70.653488"
+           y="71.414383"
+           id="text4278-9"><tspan
+             sodipodi:role="line"
+             id="tspan4276-1"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.6389px;font-family:'Protest Strike';-inkscape-font-specification:'Protest Strike';fill:#ffffff;fill-opacity:1;stroke-width:0.25"
+             x="70.653488"
+             y="71.414383">development</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>
