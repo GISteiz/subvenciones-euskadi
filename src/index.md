@@ -1,3 +1,8 @@
+---
+theme: [dashboard]
+toc: false
+---
+
 # Subvenciones en Euskadi
 
 Datos obtenidos de la API de subvenciones concedidas del portal [Open Data Euskadi](https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/).
