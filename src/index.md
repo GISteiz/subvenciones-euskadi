@@ -1,5 +1,5 @@
 ---
-theme: [dashboard]
+theme: [dashboard, dark]
 toc: false
 ---
 
