@@ -31,6 +31,8 @@ const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
 ```js
 //display(grantedBenefits);
 
+let year = 2024
+
 const grantTable = Inputs.table(grantedBenefits, {
   //placeholder: "Buscar subvenciones…",
   columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount"],
@@ -55,6 +57,32 @@ const grantTable = Inputs.table(grantedBenefits, {
   }
 });
 ```
+
+## Año ${year}
+
+<div class="grid grid-cols-4">
+  <div class="card grid-rowspan-2">
+    hola
+  </div>
+  <div class="card grid-rowspan-2">
+    soy
+  </div>
+  <div class="card grid-rowspan-2">
+    GISteiz
+  </div>
+  <div class="card grid-rowspan-1">
+    <h2>Cantidad aportada</h2>
+    <p class="big">
+      ${d3.sum(grantedBenefits, d => d.granted_amount).toLocaleString("es-ES")} €
+    </p>
+  </div>
+  <div class="card grid-rowspan-1">
+    <h2>Numero de subvenciones</h2>
+    <p class="big">
+      ${grantedBenefits.length}
+    </p>
+  </div>
+</div>
 
 <div class="grid grid-cols-1">
   <div class="card">${grantTable}</div>
