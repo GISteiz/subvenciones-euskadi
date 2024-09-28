@@ -7,6 +7,9 @@ toc: false
 Datos obtenidos de la API de subvenciones concedidas del portal [Open Data Euskadi](https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/).
 ___
 
+```js
+//import {DonutChart} from "./components/donutChart.js";
+```
 
 ```js
 function sparkbar(max) {
@@ -32,6 +35,18 @@ const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
 //display(grantedBenefits);
 
 let year = 2024
+
+
+// Bookings by nationality
+const grantsByConvener = d3
+  .rollups(
+    grantedBenefits,
+    (d) => d.granted_amount,
+    (v) => v.convener_name
+  )
+  .map(([name, value]) => ({name, value}))
+  .sort((a, b) => d3.descending(a.value, b.value));
+
 
 const grantTable = Inputs.table(grantedBenefits, {
   //placeholder: "Buscar subvenciones…",
@@ -62,7 +77,7 @@ const grantTable = Inputs.table(grantedBenefits, {
 
 <div class="grid grid-cols-4">
   <div class="card grid-rowspan-2">
-    hola
+    ${//resize(width => DonutChart(grantsByConvener, {centerText: "Organismo", width}))}
   </div>
   <div class="card grid-rowspan-2">
     soy
