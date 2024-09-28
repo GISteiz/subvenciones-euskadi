@@ -32,21 +32,77 @@ const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
 ```
 
 ```js
-//display(grantedBenefits);
+let year = 2023
 
-let year = 2024
-
-
-// Bookings by nationality
+// Grants by convener
 const grantsByConvener = d3
-  .rollups(
-    grantedBenefits,
-    (d) => d.granted_amount,
-    (v) => v.convener_name
-  )
+  .rollups(grantedBenefits, v => d3.sum(v, d => d.granted_amount), d => d.convener_name)
+  //.rollups(grantedBenefits, (d) => d.granted_amount, (v) => v.convener_name)
   .map(([name, value]) => ({name, value}))
   .sort((a, b) => d3.descending(a.value, b.value));
 
+
+function grantsByConvenerChart(width, height) {
+  return Plot.plot({
+    width,
+    //marginBottom: 100,
+    marginLeft: 0,
+    marginRight: 0,
+    x: {
+      //tickRotate: -90,
+      label: "Organismo",
+      padding: 0.7,
+      insetLeft: 36 // reserve space for inset labels
+    },
+    y: {
+      transform: (d) => d / 1000000,
+      label: "Millones €"
+    },
+    marks: [
+      //Plot.ruleY([0]),
+
+      Plot.gridY({
+        strokeDasharray: "0.75,2", // dashed
+        strokeOpacity: 1, // opaque
+        interval: 20
+      }),
+
+      Plot.barY(grantsByConvener, {
+        x: "name",
+        y: "value",
+        sort: { x: "y", reverse: true },
+        fill: "black",
+        dx: 4,
+        dy: 4
+      }),
+      Plot.barY(grantsByConvener, {
+        x: "name",
+        y: "value",
+        sort: { x: "y", reverse: true },
+        fill: "#568bea",
+        dx: 0,
+        dy: 0,
+        textAnchor: "start"
+      }),
+
+      Plot.axisY({
+        interval: 20,
+        tickSize: 0, // don’t draw ticks
+        dx: 38,
+        dy: -6,
+        lineAnchor: "bottom" // draw labels above grid lines
+        //tickFormat
+      }),
+
+      Plot.axisX({
+        tickSize: 0, // don’t draw ticks
+        rotate: 270,
+        textAnchor: "start",
+        dy: -20
+      }),
+    ]
+  })
+}
 
 const grantTable = Inputs.table(grantedBenefits, {
   //placeholder: "Buscar subvenciones…",
@@ -75,15 +131,19 @@ const grantTable = Inputs.table(grantedBenefits, {
 
 ## Año ${year}
 
+```js
+display(grantedBenefits)
+display(grantsByConvener)
+
+display(d3.group(grantedBenefits, d => d.convener_name))
+```
+
 <div class="grid grid-cols-4">
-  <div class="card grid-rowspan-2">
-    ${//resize(width => DonutChart(grantsByConvener, {centerText: "Organismo", width}))}
+  <div class="card grid-colspan-2 grid-rowspan-2">
+    ${resize((width) => grantsByConvenerChart(width))}
   </div>
   <div class="card grid-rowspan-2">
-    soy
-  </div>
-  <div class="card grid-rowspan-2">
-    GISteiz
+    <!--${resize((width) => grantsByConvenerChart(width))}-->
   </div>
   <div class="card grid-rowspan-1">
     <h2>Cantidad aportada</h2>
@@ -92,7 +152,7 @@ const grantTable = Inputs.table(grantedBenefits, {
     </p>
   </div>
   <div class="card grid-rowspan-1">
-    <h2>Numero de subvenciones</h2>
+    <h2>Número de subvenciones</h2>
     <p class="big">
       ${grantedBenefits.length}
     </p>
