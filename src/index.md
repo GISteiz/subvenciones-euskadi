@@ -1,17 +1,18 @@
 ---
-theme: [dashboard, dark]
+theme: [dashboard, light]
 toc: false
 ---
-
 # Subvenciones en Euskadi
 
 Datos obtenidos de la API de subvenciones concedidas del portal [Open Data Euskadi](https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/).
+___
+
 
 ```js
 function sparkbar(max) {
   return (x) => htl.html`<div style="
-    background: var(--theme-blue);
-    color: white;
+    background: #568bea;
+    color: black;
     font: 10px/1.6 var(--sans-serif);
     width: ${100 * x / max}%;
     float: right;
@@ -41,7 +42,15 @@ const grantTable = Inputs.table(grantedBenefits, {
   },
   sort: "granted_amount",
   reverse: true,
+  width: {
+    granted_date: "10%",
+    convener_name: "20%",
+    beneficiary_name: "50%",
+    granted_amount: "20%"
+  },
   format: {
+    convener_name: d => htl.html`<span style="white-space:normal">${d}`,
+    beneficiary_name: d => htl.html`<span style="white-space:normal">${d}`,
     granted_amount: sparkbar(d3.max(grantedBenefits, d => d.granted_amount))
   }
 });
