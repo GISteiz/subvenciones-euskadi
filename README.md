@@ -1,6 +1,14 @@
 # Subvenciones Euskadi
 
-This is an [Observable Framework](https://observablehq.com/framework) app. To start the local preview server, run:
+This is an [Observable Framework](https://observablehq.com/framework) app.
+
+After cloning the repo, run:
+
+```
+npm run install
+```
+
+To start the local preview server, run:
 
 ```
 npm run dev

@@ -1,4 +1,6 @@
 ---
+theme: [dashboard, dark]
+toc: false
 ---
 
 # Subvenciones en Euskadi
@@ -47,8 +49,4 @@ const grantTable = Inputs.table(grantedBenefits, {
 
 <div class="grid grid-cols-1">
   <div class="card">${grantTable}</div>
-</div>
-
-<div class="grid grid-cols-1">
-  <div class="card" style="text-align: end;">Desarrollado por <br><img src="assets/images/logo_gisteiz.svg" height="60px"></div>
 </div>
