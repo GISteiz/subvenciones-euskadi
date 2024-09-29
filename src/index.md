@@ -117,17 +117,18 @@ function grantsByConvenerChart(width, height) {
 function grantsByConvenerChart(width, height) {
   return Plot.plot({
     width,
-    //height: height,
-    //marginBottom: 100,
-    //marginLeft: 0,
-    //marginRight: 0,
+    height: height,
+    marginBottom: 20,
+    marginLeft: 0,
+    marginRight: 0,
     x: {
       //tickRotate: -90,
       label: "Millones €",
       transform: (d) => d / 1000000,
+      //insetLeft: -25
     },
     y: {
-      padding: 0.4,
+      padding: 0.2,
       label: "Organismo",
       insetBottom: 10 // reserve space for inset labels
     },
@@ -140,15 +141,6 @@ function grantsByConvenerChart(width, height) {
         interval: 20
       }),
 
-      /*
-      Plot.barX(grantsByConvener, {
-        x: "value",
-        y: "name",
-        sort: { y: "x", reverse: true },
-        fill: "black",
-        dx: 4,
-        dy: 4
-      }),*/
       Plot.barX(grantsByConvener, {
         x: "value",
         y: "name",
@@ -156,7 +148,8 @@ function grantsByConvenerChart(width, height) {
         fill: "#568bea",
         dx: 0,
         dy: 0,
-        textAnchor: "start"
+        textAnchor: "start",
+        tip: "x"
       }),
 
       Plot.axisX({
@@ -165,30 +158,21 @@ function grantsByConvenerChart(width, height) {
         tickSize: 0, // don’t draw ticks
         dx: 10,
         dy: -20,
-        //lineAnchor: "bottom" // draw labels above grid lines
-        //tickFormat
       }),
-
       Plot.axisY({
+        label: null,
         //fontFamily : "",
-        fontSize: 10,
-        //fontWeight: "bold",
-        //textStroke: "white",
-        //textStrokeWidth: 1,
-        //textStrokeOpacity: 1,
+        fontSize: 12,
         tickSize: 0, // don’t draw ticks
         textAnchor: "start",
         dy: 0,
         dx: 20
       }),
-      /*
-      */
+
+      //Plot.tip(grantsByConvener, Plot.pointerX({x: "value".toLocaleString("es/ES"), y: "name"}))
     ]
   })
 }
-
-
-
 
 const grantTable = Inputs.table(grantedBenefits, {
   //placeholder: "Buscar subvenciones…",
@@ -213,6 +197,7 @@ const grantTable = Inputs.table(grantedBenefits, {
     granted_amount: sparkbar(d3.max(grantedBenefits, d => d.granted_amount))
   }
 });
+
 ```
 
 ## Año ${year}
@@ -225,8 +210,12 @@ display(d3.group(grantedBenefits, d => d.convener_name))
 ```
 
 <div class="grid grid-cols-4">
-  <div class="card grid-colspan-2 grid-rowspan-2">
-    ${resize((width, height) => grantsByConvenerChart(width, height))}
+  <div class="card grid-rowspan-2">
+    <h2>Subvenciones por Organismo</h2>
+    ${resize((width, height) => grantsByConvenerChart(width, height*0.9))}
+  </div>
+  <div class="card grid-rowspan-2">
+    <!--${resize((width) => grantsByConvenerChart(width))}-->
   </div>
   <div class="card grid-rowspan-2">
     <!--${resize((width) => grantsByConvenerChart(width))}-->
