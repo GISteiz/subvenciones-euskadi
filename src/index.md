@@ -47,7 +47,6 @@ const grantedBenefitsRaw = FileAttachment("./data/granted-benefits_backup.json")
 ```
 
 ```js
-
 let grantedBenefits = []
 grantedBenefitsRaw.forEach(grant => {
   grantedBenefits.push({
@@ -59,8 +58,6 @@ grantedBenefitsRaw.forEach(grant => {
     "granted_amount": grant["granted_amount"],
   })
 });
-
-
 ```
 
 ```js
@@ -177,7 +174,7 @@ function grantsByConvenerChart(width, height) {
       Plot.gridX({
         strokeDasharray: "0.75,2", // dashed
         strokeOpacity: 1, // opaque
-        interval: 20
+        //interval: 20
       }),
 
       Plot.barX(grantsByConvener, {
@@ -188,12 +185,17 @@ function grantsByConvenerChart(width, height) {
         dx: 0,
         dy: 0,
         textAnchor: "start",
-        tip: "x"
+        tip: {
+          fontSize: 14,
+          format: {
+            x: (d) => `${numberToLocaleString(d)}` 
+          }
+        } // (d) => numberToLocaleString(d.value) //"x"
       }),
 
       Plot.axisX({
         labelArrow: "none",
-        interval: 20,
+        //interval: 20,
         tickSize: 0, // don’t draw ticks
         dx: 10,
         dy: -20,
@@ -208,7 +210,7 @@ function grantsByConvenerChart(width, height) {
         dx: 20
       }),
 
-      //Plot.tip(grantsByConvener, Plot.pointerX({x: "value".toLocaleString("es/ES"), y: "name"}))
+      //Plot.tip(grantsByConvener, Plot.pointerX({x: "value", y: "name"}))
     ]
   })
 }
@@ -259,7 +261,6 @@ const grantTable = Inputs.table(search, {
 display(grantedBenefits)
 display(grantsByConvener)
 display(d3.group(grantedBenefits, d => d.convener_name))
-
 ```
 
 <div class="grid grid-cols-4">
