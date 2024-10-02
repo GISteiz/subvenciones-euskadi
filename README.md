@@ -2,6 +2,8 @@
 
 This is an [Observable Framework](https://observablehq.com/framework) app.
 
+## Local setup
+
 After cloning the repo, run:
 
 ```
@@ -18,12 +20,47 @@ Then visit <http://localhost:3000> to preview your app.
 
 For more, see <https://observablehq.com/framework/getting-started>.
 
+## Deployment
+
+### On Observable
+
+Run script:
+
+```
+npm run deploy
+```
+
+### On GitHub Pages
+
+Steps to deploy only `dist` folder.
+
+Install [npm gh-pages](https://www.npmjs.com/package/gh-pages):
+
+```
+npm install gh-pages --save-dev
+```
+
+Add `deploy-github` script to `package.json` (already done in this repo):
+
+```js
+"scripts": {
+  "deploy-github": "gh-pages -d dist"
+}
+```
+
+Run script (then enable github pages publicly):
+
+```
+npm run deploy-github
+```
+
 ## Project structure
 
 A typical Framework project looks like this:
 
 ```ini
 .
+├─ dist                        # folder containing built app - deployable as static website
 ├─ src
 │  ├─ components
 │  │  └─ timeline.js           # an importable module
@@ -51,11 +88,12 @@ A typical Framework project looks like this:
 
 ## Command reference
 
-| Command           | Description                                              |
-| ----------------- | -------------------------------------------------------- |
-| `npm install`            | Install or reinstall dependencies                        |
-| `npm run dev`        | Start local preview server                               |
-| `npm run build`      | Build your static site, generating `./dist`              |
-| `npm run deploy`     | Deploy your app to Observable                            |
-| `npm run clean`      | Clear the local data loader cache                        |
-| `npm run observable` | Run commands like `observable help`                      |
+| Command                 | Description                                              |
+| ----------------------- | -------------------------------------------------------- |
+| `npm install`           | Install or reinstall dependencies                        |
+| `npm run dev`           | Start local preview server                               |
+| `npm run build`         | Build your static site, generating `./dist`              |
+| `npm run deploy`        | Deploy your app to Observable                            |
+| `npm run clean`         | Clear the local data loader cache                        |
+| `npm run observable`    | Run commands like `observable help`                      |
+| `npm run deploy-github` | Deploy your app to gh-pages branch                       |
