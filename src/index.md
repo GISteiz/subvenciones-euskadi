@@ -231,7 +231,7 @@ const search = Generators.input(searchInput);
 
 ```
 ```js
-const grantTable = Inputs.table(search, {
+const grantTableInput = Inputs.table(search, {
   columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount"],
   header: {
     granted_date: "Fecha",
@@ -251,8 +251,20 @@ const grantTable = Inputs.table(search, {
     convener_name: d => htl.html`<span style="white-space:normal">${d}`,
     beneficiary_name: d => htl.html`<span style="white-space:normal">${d}`,
     granted_amount: sparkbar(d3.max(grantedBenefits, d => d.granted_amount))
-  }
+  },
+  multiple: false
 });
+
+const tableSelection = Generators.input(grantTableInput);
+
+function showSelection(selection, field) {
+  if (selection) {
+    console.log(selection[field])
+    return selection[field]
+  }
+  else { return '' }
+}
+
 ```
 
 ## Año ${year}
@@ -291,6 +303,13 @@ display(d3.group(grantedBenefits, d => d.convener_name))
 <div class="grid grid-cols-1">
   <div class="card">
     <p>${searchInput}</p>
-    <div>${grantTable}</div>
+    <div>${grantTableInput}</div>
   </div>
 </div>
+
+<div class="grid grid-cols-1">
+  <div class="card">
+    <p>${showSelection(tableSelection, 'beneficiary_name')}</p>
+  </div>
+</div>
+
