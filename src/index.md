@@ -12,6 +12,19 @@ ___
 ```
 
 ```js
+function numberToLocaleString(n, amount) {
+  n = Math.round((n + Number.EPSILON) * 100) / 100
+  if (amount == 'millones') {
+    return (n / 1000000).toLocaleString("es-ES") + ' ' + amount
+  }
+  else if (amount == 'miles') {
+    return (n / 1000).toLocaleString("es-ES") + ' ' + amount
+  }
+  else { 
+    return n.toLocaleString("es-ES")
+  }
+}
+
 function sparkbar(max) {
   return (x) => htl.html`<div style="
     background: #568bea;
@@ -23,20 +36,10 @@ function sparkbar(max) {
     box-sizing: border-box;
     overflow: visible;
     display: flex;
-    justify-content: end;">${x.toLocaleString("en-US")}`
+    justify-content: end;">${numberToLocaleString(x)}`
 }
 
-function numberToLocaleString(n, amount) {
-  if (amount == 'millones') {
-    return (n / 1000000).toLocaleString("es-ES") + ' ' + amount
-  }
-  else if (amount == 'miles') {
-    return (n / 1000).toLocaleString("es-ES") + ' ' + amount
-  }
-  else { 
-    return n.toLocaleString("es-ES")
-  }
-}
+
 
 ```
 
