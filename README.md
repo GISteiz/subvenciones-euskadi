@@ -18,6 +18,12 @@ npm run dev
 
 Then visit <http://localhost:3000> to preview your app.
 
+If you like, you can run your data loader manually in the terminal:
+
+```
+node src/data/<data_loader_name>.json.js
+```
+
 For more, see <https://observablehq.com/framework/getting-started>.
 
 ## Deployment

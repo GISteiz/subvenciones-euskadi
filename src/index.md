@@ -25,14 +25,35 @@ function sparkbar(max) {
     display: flex;
     justify-content: end;">${x.toLocaleString("en-US")}`
 }
+
+function numberToLocaleString(n, amount) {
+  if (amount == 'millones') {
+    return (n / 1000000).toLocaleString("es-ES") + ' ' + amount
+  }
+  else if (amount == 'miles') {
+    return (n / 1000).toLocaleString("es-ES") + ' ' + amount
+  }
+  else { 
+    return n.toLocaleString("es-ES")
+  }
+}
+
 ```
 
 ```js
-const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
+//const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
+const grantedBenefits = FileAttachment("./data/granted-benefits_backup.json").json();
 ```
 
 ```js
-let year = 2023
+let year
+if (grantedBenefits[0].ISBACKUP) {
+  display('BACKUP!!!');
+  year = grantedBenefits[0].granted_date.split('-')[0];
+}
+else {
+  year = '????'
+}
 
 // Grants by convener
 const grantsByConvener = d3
@@ -223,13 +244,13 @@ display(d3.group(grantedBenefits, d => d.convener_name))
   <div class="card grid-rowspan-1">
     <h2>Cantidad aportada</h2>
     <p class="big">
-      ${d3.sum(grantedBenefits, d => d.granted_amount).toLocaleString("es-ES")} €
+      ${numberToLocaleString(d3.sum(grantedBenefits, d => d.granted_amount), 'millones')} €
     </p>
   </div>
   <div class="card grid-rowspan-1">
     <h2>Número de subvenciones</h2>
     <p class="big">
-      ${grantedBenefits.length}
+      ${numberToLocaleString(grantedBenefits.length)}
     </p>
   </div>
 </div>
