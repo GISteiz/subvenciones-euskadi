@@ -80,79 +80,6 @@ const grantsByConvener = d3
   .map(([name, value]) => ({name, value}))
   .sort((a, b) => d3.descending(a.value, b.value));
 
-/*
-function grantsByConvenerChart(width, height) {
-  return Plot.plot({
-    width,
-    height: height,
-    //marginBottom: 100,
-    marginLeft: 0,
-    marginRight: 0,
-    x: {
-      //tickRotate: -90,
-      label: "Organismo",
-      padding: 0.7,
-      insetLeft: 36 // reserve space for inset labels
-    },
-    y: {
-      transform: (d) => d / 1000000,
-      label: "Millones €"
-    },
-    marks: [
-      //Plot.ruleY([0]),
-
-      Plot.gridY({
-        strokeDasharray: "0.75,2", // dashed
-        strokeOpacity: 1, // opaque
-        interval: 20
-      }),
-
-      Plot.barY(grantsByConvener, {
-        x: "name",
-        y: "value",
-        sort: { x: "y", reverse: true },
-        fill: "black",
-        dx: 4,
-        dy: 4
-      }),
-      Plot.barY(grantsByConvener, {
-        x: "name",
-        y: "value",
-        sort: { x: "y", reverse: true },
-        fill: "#568bea",
-        dx: 0,
-        dy: 0,
-        textAnchor: "start"
-      }),
-
-      Plot.axisY({
-        labelArrow: "none",
-        interval: 20,
-        tickSize: 0, // don’t draw ticks
-        dx: 38,
-        dy: -6,
-        lineAnchor: "bottom" // draw labels above grid lines
-        //tickFormat
-      }),
-
-      Plot.axisX({
-        //fontFamily : "",
-        fontSize: 10,
-        //fontWeight: "bold",
-        //textStroke: "white",
-        //textStrokeWidth: 1,
-        //textStrokeOpacity: 1,
-        tickSize: 0, // don’t draw ticks
-        rotate: 270,
-        textAnchor: "start",
-        dy: -20
-      }),
-    ]
-  })
-}
-*/
-
-
 function grantsByConvenerChart(width, height) {
   return Plot.plot({
     width,
@@ -280,12 +207,12 @@ display(d3.group(grantedBenefits, d => d.convener_name))
     <h2>Subvenciones por Organismo</h2>
     ${resize((width, height) => grantsByConvenerChart(width, height*0.9))}
   </div>
-  <div class="card grid-rowspan-2">
+  <div class="card grid-colspan-2 grid-rowspan-2">
+    <h2>Cantidad por año</h2>
     <!--${resize((width) => grantsByConvenerChart(width))}-->
   </div>
-  <div class="card grid-rowspan-2">
-    <!--${resize((width) => grantsByConvenerChart(width))}-->
-  </div>
+  <!--div class="card grid-rowspan-2">
+  </div-->
   <div class="card grid-rowspan-1">
     <h2>Cantidad aportada</h2>
     <p class="big">
