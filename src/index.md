@@ -218,14 +218,11 @@ function grantsByConvenerChart(width, height) {
   })
 }
 
-/*
-viewof search = Inputs.search(grantedBenefits, {
-  //datalist: ["alava"], 
-  placeholder: "Buscar subvenciones…"
-})
-*/
 
-//const convener = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
+
+//const dpdnConvenerSelectorInput = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
+//TODO: add year and convener selectors
+
 const searchInput = Inputs.search(grantedBenefits, {
   placeholder: "Buscar subvenciones…",
   columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount"]
