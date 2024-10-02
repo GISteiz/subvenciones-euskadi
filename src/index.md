@@ -42,13 +42,31 @@ function numberToLocaleString(n, amount) {
 
 ```js
 //const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
-const grantedBenefits = FileAttachment("./data/granted-benefits_backup.json").json();
+//const grantedBenefits = FileAttachment("./data/granted-benefits_backup.json").json();
+const grantedBenefitsRaw = FileAttachment("./data/granted-benefits_backup.json").json();
+```
+
+```js
+
+let grantedBenefits = []
+grantedBenefitsRaw.forEach(grant => {
+  grantedBenefits.push({
+    "convener_name": grant["convener_name"],
+    "convener_id": grant["convener"]["organization"]["id"],
+    "beneficiary_name": grant["beneficiary_name"].trim(), //remove trailing spaces
+    "beneficiary_id": grant["beneficiary"]["id"],
+    "granted_date": grant["granted_date"],
+    "granted_amount": grant["granted_amount"],
+  })
+});
+
+
 ```
 
 ```js
 let year
-if (grantedBenefits[0].ISBACKUP) {
-  display('BACKUP!!!');
+if (grantedBenefitsRaw[0].ISBACKUP) {
+  display(html`<h2>BACKUP DATA</h2>`);
   year = grantedBenefits[0].granted_date.split('-')[0];
 }
 else {
@@ -195,8 +213,23 @@ function grantsByConvenerChart(width, height) {
   })
 }
 
-const grantTable = Inputs.table(grantedBenefits, {
-  //placeholder: "Buscar subvenciones…",
+/*
+viewof search = Inputs.search(grantedBenefits, {
+  //datalist: ["alava"], 
+  placeholder: "Buscar subvenciones…"
+})
+*/
+
+//const convener = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
+const searchInput = Inputs.search(grantedBenefits, {
+  placeholder: "Buscar subvenciones…",
+  columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount"]
+});
+const search = Generators.input(searchInput);
+
+```
+```js
+const grantTable = Inputs.table(search, {
   columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount"],
   header: {
     granted_date: "Fecha",
@@ -218,7 +251,6 @@ const grantTable = Inputs.table(grantedBenefits, {
     granted_amount: sparkbar(d3.max(grantedBenefits, d => d.granted_amount))
   }
 });
-
 ```
 
 ## Año ${year}
@@ -226,8 +258,8 @@ const grantTable = Inputs.table(grantedBenefits, {
 ```js
 display(grantedBenefits)
 display(grantsByConvener)
-
 display(d3.group(grantedBenefits, d => d.convener_name))
+
 ```
 
 <div class="grid grid-cols-4">
@@ -256,5 +288,8 @@ display(d3.group(grantedBenefits, d => d.convener_name))
 </div>
 
 <div class="grid grid-cols-1">
-  <div class="card">${grantTable}</div>
+  <div class="card">
+    <p>${searchInput}</p>
+    <div>${grantTable}</div>
+  </div>
 </div>
