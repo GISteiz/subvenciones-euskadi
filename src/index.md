@@ -40,31 +40,50 @@ function sparkbar(max) {
 }
 
 
-
 ```
 
 ```js
+// load data
+console.log(new Date().toString());
 const zip = await FileAttachment("./data/granted-benefits_zip.zip").zip();
-const year_2015 = await zip.file("2015.json").json();
+let unzip = {}
+let years = []
+for (const i in zip.filenames) {
+  const filename = zip.filenames[i]
+  const year = filename.split('.')[0]
+  years.push(year)
+  unzip[year] = await zip.file(filename).json();
+}
+console.log(new Date().toString());
+//const year_2015 = await zip.file("2015.json").json();
 
-let grantedBenefits = []
-for (const page in year_2015) {
-  //let pageArray = []
-  const pageContent = year_2015[page]
-  for (const i in pageContent['granted-benefits']) {
-    // pick data of interest -- ALL THIS SHOULD BE PROCESSED IN DATA LOADER TO REDUCE LOADING TIME
-    const grant = pageContent['granted-benefits'][i]
-    grantedBenefits.push({
-      "convener_name": grant["convener"]["organization"]["nameByLang"]["SPANISH"],
-      "convener_id": grant["convener"]["organization"]["id"],
-      "beneficiary_name": grant["beneficiary"]["name"].trim(), //remove trailing spaces
-      "beneficiary_id": grant["beneficiary"]["id"],
-      "granted_date": grant["granted"]["date"],
-      "granted_amount": grant["granted"]["amount"],
-      "year": grant["granted"]["date"].split("-")[0]
-    })
+// process data
+function extractGrantData(grant) {
+  return {
+    "convener_name": grant["convener"]["organization"]["nameByLang"]["SPANISH"],
+    "convener_id": grant["convener"]["organization"]["id"],
+    "beneficiary_name": (grant["beneficiary"]["name"] ? grant["beneficiary"]["name"].trim() : ''), //remove trailing spaces
+    "beneficiary_id": grant["beneficiary"]["id"],
+    "granted_date": grant["granted"]["date"],
+    "granted_amount": grant["granted"]["amount"],
+    "year": grant["granted"]["date"].split("-")[0]
   }
 }
+
+let grantedBenefits = []
+for (const year in unzip) {
+  const yearInfo = unzip[year]
+  for (const page in yearInfo) {
+    //let pageArray = []
+    const pageContent = yearInfo[page]
+    for (const i in pageContent['granted-benefits']) {
+      // pick data of interest -- ALL THIS SHOULD BE PROCESSED IN DATA LOADER TO REDUCE LOADING TIME
+      const grant = pageContent['granted-benefits'][i]
+      grantedBenefits.push(extractGrantData(grant))
+    }
+  }
+}
+console.log(new Date().toString());
 console.log(grantedBenefits)
 debugger
 
