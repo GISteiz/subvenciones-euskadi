@@ -85,7 +85,6 @@ for (const year in unzip) {
 }
 console.log(new Date().toString());
 console.log(grantedBenefits)
-debugger
 
 //const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
 //const grantedBenefits = FileAttachment("./data/granted-benefits_backup.json").json();
@@ -93,20 +92,10 @@ debugger
 ```
 
 ```js
-/*let grantedBenefits = []
-grantedBenefitsRaw.forEach(grant => {
-  grantedBenefits.push({
-    "convener_name": grant["convener_name"],
-    "convener_id": grant["convener"]["organization"]["id"],
-    "beneficiary_name": grant["beneficiary_name"].trim(), //remove trailing spaces
-    "beneficiary_id": grant["beneficiary"]["id"],
-    "granted_date": grant["granted_date"],
-    "granted_amount": grant["granted_amount"],
-  })
-});*/
-```
-
-```js
+function getYearRange() {
+  return `Desde ${Math.min(...years)} hasta ${Math.max(...years)}`
+}
+/*
 let year
 if (grantedBenefits[0].ISBACKUP) {
 //if (grantedBenefitsRaw[0].ISBACKUP) {
@@ -116,6 +105,7 @@ if (grantedBenefits[0].ISBACKUP) {
 else {
   year = ''
 }
+*/
 
 // Grants by convener
 const grantsByConvener = d3
@@ -124,13 +114,13 @@ const grantsByConvener = d3
   .map(([name, value]) => ({name, value}))
   .sort((a, b) => d3.descending(a.value, b.value));
 
-function grantsByConvenerChart(width, height) {
+function grantsByConvenerChart(width) { //, height) {
   return Plot.plot({
     width,
-    height: height,
-    marginBottom: 20,
+    //height: height,
+    marginBottom: 35,
     marginLeft: 0,
-    marginRight: 0,
+    marginRight: 5,
     x: {
       //tickRotate: -90,
       label: "Millones €",
@@ -140,7 +130,7 @@ function grantsByConvenerChart(width, height) {
     y: {
       padding: 0.2,
       label: "Organismo",
-      insetBottom: 10 // reserve space for inset labels
+      //insetBottom: 10 // reserve space for inset labels
     },
     marks: [
       //Plot.ruleX([0]),
@@ -163,7 +153,8 @@ function grantsByConvenerChart(width, height) {
           fontSize: 14,
           format: {
             x: (d) => `${numberToLocaleString(d)}` 
-          }
+          },
+          x: 2000
         } // (d) => numberToLocaleString(d.value) //"x"
       }),
 
@@ -171,8 +162,9 @@ function grantsByConvenerChart(width, height) {
         labelArrow: "none",
         //interval: 20,
         tickSize: 0, // don’t draw ticks
-        dx: 10,
-        dy: -20,
+        //dx: 10,
+        //dy: -20,
+        //tickformat: (d) => `${numberToLocaleString(d)}`
       }),
       Plot.axisY({
         label: null,
@@ -238,18 +230,19 @@ function showSelection(selection, field) {
 
 ```
 
-## Año ${year}
+## ${getYearRange()} | <small style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</small>
 
 ```js
-display(grantedBenefits)
-display(grantsByConvener)
-display(d3.group(grantedBenefits, d => d.convener_name))
+//display(grantedBenefits)
+//display(grantsByConvener)
+//display(d3.group(grantedBenefits, d => d.convener_name))
 ```
 
-<div class="grid grid-cols-4">
-  <div class="card grid-rowspan-2">
+<div class="grid grid-cols-4" style="max-height: 200px;">
+  <div class="card grid-rowspan-2" style="overflow: auto;">
     <h2>Subvenciones por Organismo</h2>
-    ${resize((width, height) => grantsByConvenerChart(width, height*0.9))}
+    <!-- ${resize((width, height) => grantsByConvenerChart(width, height*0.9))} -->
+    ${resize((width) => grantsByConvenerChart(width))}
   </div>
   <div class="card grid-colspan-2 grid-rowspan-2">
     <h2>Cantidad por año</h2>
@@ -271,7 +264,7 @@ display(d3.group(grantedBenefits, d => d.convener_name))
   </div>
 </div>
 
-<div class="grid grid-cols-1">
+<div class="grid grid-cols-1" style="margin-top: 30px;">
   <div class="card">
     <p>${searchInput}</p>
     <div>${grantTableInput}</div>
