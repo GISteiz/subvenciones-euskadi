@@ -44,13 +44,37 @@ function sparkbar(max) {
 ```
 
 ```js
+const zip = await FileAttachment("./data/granted-benefits_zip.zip").zip();
+const year_2015 = await zip.file("2015.json").json();
+
+let grantedBenefits = []
+for (const page in year_2015) {
+  //let pageArray = []
+  const pageContent = year_2015[page]
+  for (const i in pageContent['granted-benefits']) {
+    // pick data of interest -- ALL THIS SHOULD BE PROCESSED IN DATA LOADER TO REDUCE LOADING TIME
+    const grant = pageContent['granted-benefits'][i]
+    grantedBenefits.push({
+      "convener_name": grant["convener"]["organization"]["nameByLang"]["SPANISH"],
+      "convener_id": grant["convener"]["organization"]["id"],
+      "beneficiary_name": grant["beneficiary"]["name"].trim(), //remove trailing spaces
+      "beneficiary_id": grant["beneficiary"]["id"],
+      "granted_date": grant["granted"]["date"],
+      "granted_amount": grant["granted"]["amount"],
+      "year": grant["granted"]["date"].split("-")[0]
+    })
+  }
+}
+console.log(grantedBenefits)
+debugger
+
 //const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
 //const grantedBenefits = FileAttachment("./data/granted-benefits_backup.json").json();
-const grantedBenefitsRaw = FileAttachment("./data/granted-benefits_backup.json").json();
+//const grantedBenefitsRaw = FileAttachment("./data/granted-benefits_backup.json").json();
 ```
 
 ```js
-let grantedBenefits = []
+/*let grantedBenefits = []
 grantedBenefitsRaw.forEach(grant => {
   grantedBenefits.push({
     "convener_name": grant["convener_name"],
@@ -60,17 +84,18 @@ grantedBenefitsRaw.forEach(grant => {
     "granted_date": grant["granted_date"],
     "granted_amount": grant["granted_amount"],
   })
-});
+});*/
 ```
 
 ```js
 let year
-if (grantedBenefitsRaw[0].ISBACKUP) {
+if (grantedBenefits[0].ISBACKUP) {
+//if (grantedBenefitsRaw[0].ISBACKUP) {
   display(html`<h2>BACKUP DATA</h2>`);
   year = grantedBenefits[0].granted_date.split('-')[0];
 }
 else {
-  year = '????'
+  year = ''
 }
 
 // Grants by convener

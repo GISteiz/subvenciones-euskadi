@@ -1,4 +1,7 @@
-/*
+/**/
+import JSZip from "jszip";
+//var fs = require("fs");
+
 async function json(url, timeout = 3000) {
   const response = await fetch(url, { signal: AbortSignal.timeout(timeout) });
   if (!response.ok) throw new Error(`fetch failed: ${response.status}`);
@@ -10,7 +13,7 @@ function buildYearlyUrl(elements, page, year) {
   return `https://api.euskadi.eus/granted-benefit/v1.0/granted-benefits?_elements=${elements}&_page=${page}&grantedDateFrom=${year}-01-01&grantedDateTo=${year}-12-31`;
 }
  
-const elements = '100';
+const elements = '500';
 //const pages = '1';
 const init_year = 2015
 
@@ -25,10 +28,12 @@ for (let year = init_year; year <= last_year; year++) {
   years.push(year)
 }
 
-years = [2022]
+//years = [2022]
 //console.log(years)
 
 let allGrants = []
+// Init output a ZIP archive.
+const zip = new JSZip();
 for (const year of years) {
   console.log(year)
 
@@ -42,7 +47,7 @@ for (const year of years) {
   for (let page = 2; page <= pagesInYear; page++) {
     console.log(buildYearlyUrl(elements, page, year))
     pages['page' + page] = []
-    pages['page' + page] = await json(buildYearlyUrl(totalGrants, pages, from, to), 60000); //60" timeout
+    pages['page' + page] = await json(buildYearlyUrl(elements, page, year), 60000); //60" timeout
     console.log(year + ' - query 2 ok')
   }
 
@@ -61,13 +66,17 @@ for (const year of years) {
   //  grant["granted_amount"] = grant["granted"]["amount"];
   //  grant["year"] = grant["granted"]["date"].split("-")[0];
   //})])
+  zip.file(year + ".json", JSON.stringify(pages, null, 2))
 }
 
-console.log(allGrants)
-process.stdout.write(JSON.stringify(allGrants));
-*/
+//console.log(allGrants)
+// Output a ZIP archive to stdout.
+zip.generateNodeStream().pipe(process.stdout);
 
+//process.stdout.write(JSON.stringify(allGrants));
+/**/
 
+/*
 async function json(url) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`fetch failed: ${response.status}`);
@@ -98,3 +107,4 @@ allGrants["granted-benefits"].map(grant => {
 })
 
 process.stdout.write(JSON.stringify(allGrants["granted-benefits"]));
+*/
