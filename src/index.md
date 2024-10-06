@@ -8,12 +8,19 @@ Datos obtenidos de la API de subvenciones concedidas del portal [Open Data Euska
 ___
 
 ```js
-//import {DonutChart} from "./components/donutChart.js";
-```
+/* Helper functions */
 
-```js
+/**
+ * Rounds a number to 2 decimal places, avoiding floating point precision issues
+ * @param {number} num - number to round
+ * @returns {number} - rounded number
+ */
+function round2(num) {
+  return Math.round((num + Number.EPSILON) * 100) / 100
+}
+
 function numberToLocaleString(n, amount) {
-  n = Math.round((n + Number.EPSILON) * 100) / 100
+  n = round2(n)
   if (amount == 'millones') {
     return (n / 1000000).toLocaleString("es-ES") + ' ' + amount
   }
@@ -25,12 +32,21 @@ function numberToLocaleString(n, amount) {
   }
 }
 
+function sparkbarColor(x) {
+  if (x >= 0) {
+    return '#568bea'
+  }
+  else {
+    return '#c44e52'
+  }
+}
+
 function sparkbar(max) {
   return (x) => htl.html`<div style="
-    background: #568bea;
+    background: ${sparkbarColor(x)};
     color: black;
     font: 10px/1.6 var(--sans-serif);
-    width: ${100 * x / max}%;
+    width: ${100 * Math.abs(x) / max}%;
     float: right;
     padding-right: 3px;
     box-sizing: border-box;
@@ -38,15 +54,18 @@ function sparkbar(max) {
     display: flex;
     justify-content: end;">${numberToLocaleString(x)}`
 }
-
-
 ```
 
 ```js
-// load data
+/* Load data */
+
 console.log(new Date().toString());
 const json_input = await FileAttachment("./data/granted-benefits.json").json(); 
 
+let stats = json_input['stats']
+let grantedBenefits = json_input['granted-benefits']
+let years = stats.year_range
+/*
 const zip = await FileAttachment("./data/granted-benefits.zip").zip();
 let unzip = {}
 let years = []
@@ -74,9 +93,10 @@ for (const year in unzip) {
   
 }
 
+*/
 console.log(new Date().toString());
 //console.log(grantedBenefits)
-debugger
+//debugger
 
 //const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
 //const grantedBenefits = FileAttachment("./data/granted-benefits_backup.json").json();
@@ -180,7 +200,7 @@ function grantsByConvenerChart(width) { //, height) {
 
 const searchInput = Inputs.search(grantedBenefits, {
   placeholder: "Buscar subvenciones…",
-  columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount"]
+  columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount", "beneficiary_id"],
 });
 const search = Generators.input(searchInput);
 
@@ -212,10 +232,13 @@ const grantTableInput = Inputs.table(search, {
 
 const tableSelection = Generators.input(grantTableInput);
 
-function showSelection(selection, field) {
+function showSelection(selection) {
   if (selection) {
-    console.log(selection[field])
-    return selection[field]
+    console.log(selection['oid'])
+    return htl.html`
+      <p>${selection['beneficiary_name']} | ${selection['beneficiary_id']}</p>
+      <p>${selection['name']}</p>
+      <p>${selection['convener_name']}</p>`
   }
   else { return '' }
 }
@@ -225,11 +248,11 @@ function showSelection(selection, field) {
 ## ${getYearRange()} | <small style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</small>
 
 ```js
-debugger
-display('json [' + json_input_count + ']')
+//debugger
+//display('json:')
 display(json_input)
-display('zip')
-display(grantedBenefits)
+//display('zip')
+//display(grantedBenefits)
 //display(grantsByConvener)
 //display(d3.group(grantedBenefits, d => d.convener_name))
 ```
@@ -267,9 +290,10 @@ display(grantedBenefits)
   </div>
 </div>
 
-<div class="grid grid-cols-1">
-  <div class="card">
-    <p>${showSelection(tableSelection, 'beneficiary_name')}</p>
+<div class="grid grid-cols-4">
+  <div class="card grid-colspan-2">${showSelection(tableSelection)}</div>
+  <div class="card grid-colspan-2" >
+    <p style="float: right;">Última actualización: ${stats.build_date}</p>
   </div>
 </div>
 
