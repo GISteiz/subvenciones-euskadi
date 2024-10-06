@@ -45,9 +45,17 @@ function sparkbar(max) {
 ```js
 // load data
 console.log(new Date().toString());
-const zip = await FileAttachment("./data/granted-benefits_zip.zip").zip();
+const json_input = await FileAttachment("./data/granted-benefits.json").json(); 
+
+const zip = await FileAttachment("./data/granted-benefits.zip").zip();
 let unzip = {}
 let years = []
+
+let json_input_count = 0
+for (const i in json_input) {
+  json_input_count += json_input[i].length
+}
+
 for (const i in zip.filenames) {
   const filename = zip.filenames[i]
   const year = filename.split('.')[0]
@@ -57,34 +65,18 @@ for (const i in zip.filenames) {
 console.log(new Date().toString());
 //const year_2015 = await zip.file("2015.json").json();
 
-// process data
-function extractGrantData(grant) {
-  return {
-    "convener_name": grant["convener"]["organization"]["nameByLang"]["SPANISH"],
-    "convener_id": grant["convener"]["organization"]["id"],
-    "beneficiary_name": (grant["beneficiary"]["name"] ? grant["beneficiary"]["name"].trim() : ''), //remove trailing spaces
-    "beneficiary_id": grant["beneficiary"]["id"],
-    "granted_date": grant["granted"]["date"],
-    "granted_amount": grant["granted"]["amount"],
-    "year": grant["granted"]["date"].split("-")[0]
-  }
-}
-
 let grantedBenefits = []
 for (const year in unzip) {
-  const yearInfo = unzip[year]
-  for (const page in yearInfo) {
-    //let pageArray = []
-    const pageContent = yearInfo[page]
-    for (const i in pageContent['granted-benefits']) {
-      // pick data of interest -- ALL THIS SHOULD BE PROCESSED IN DATA LOADER TO REDUCE LOADING TIME
-      const grant = pageContent['granted-benefits'][i]
-      grantedBenefits.push(extractGrantData(grant))
-    }
+  const yearData = unzip[year] // yearData is array
+  for (const i in yearData) {
+    grantedBenefits.push(yearData[i])
   }
+  
 }
+
 console.log(new Date().toString());
-console.log(grantedBenefits)
+//console.log(grantedBenefits)
+debugger
 
 //const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
 //const grantedBenefits = FileAttachment("./data/granted-benefits_backup.json").json();
@@ -233,7 +225,11 @@ function showSelection(selection, field) {
 ## ${getYearRange()} | <small style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</small>
 
 ```js
-//display(grantedBenefits)
+debugger
+display('json [' + json_input_count + ']')
+display(json_input)
+display('zip')
+display(grantedBenefits)
 //display(grantsByConvener)
 //display(d3.group(grantedBenefits, d => d.convener_name))
 ```
