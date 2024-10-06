@@ -1,3 +1,5 @@
+//TODO: move common flow to module: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+
 /**
  * Fetches JSON from a given URL with a default timeout of 3 seconds.
  * @param {string} url
@@ -224,6 +226,8 @@ stats['grant_amount_by_convener'] = Object.keys(stats['convener_index']).map(con
     .filter(grant => grant.convener_id == convener_id)
     .reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
 ]).sort((a, b) => b[1] - a[1])
+
+//TODO: grant_amount_by_convener_per_year
 
 stats['beneficiary_index'] = {}
 allGrants.map(grant => { 

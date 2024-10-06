@@ -126,7 +126,7 @@ const grantsByConvener = d3
   .map(([name, value]) => ({name, value}))
   .sort((a, b) => d3.descending(a.value, b.value));
 
-function grantsByConvenerChart(width) { //, height) {
+function chartGrantsByConvener(width) { //, height) {
   return Plot.plot({
     width,
     //height: height,
@@ -189,6 +189,23 @@ function grantsByConvenerChart(width) { //, height) {
       }),
 
       //Plot.tip(grantsByConvener, Plot.pointerX({x: "value", y: "name"}))
+    ]
+  })
+}
+
+
+function chartGrantAmountPerYear(width) {
+  return Plot.plot({
+    //x: {type: "utc", ticks: "year", label: null},
+    //y: {grid: true, inset: 10, label: "Degrees (F)"},
+    marks: [
+      Plot.lineY(stats.grant_amount_per_year, {
+        x: 0,
+        y: 1,
+        //z: null, // varying color, not series
+        stroke: "blue",
+        curve: "step-after"
+      })
     ]
   })
 }
@@ -260,12 +277,12 @@ display(json_input)
 <div class="grid grid-cols-4" style="max-height: 200px;">
   <div class="card grid-rowspan-2" style="overflow: auto;">
     <h2>Subvenciones por Organismo</h2>
-    <!-- ${resize((width, height) => grantsByConvenerChart(width, height*0.9))} -->
-    ${resize((width) => grantsByConvenerChart(width))}
+    <!-- ${resize((width, height) => chartGrantsByConvener(width, height*0.9))} -->
+    ${resize((width) => chartGrantsByConvener(width))}
   </div>
   <div class="card grid-colspan-2 grid-rowspan-2">
     <h2>Cantidad por año</h2>
-    <!--${resize((width) => grantsByConvenerChart(width))}-->
+    ${resize((width) => chartGrantAmountPerYear(width))}
   </div>
   <!--div class="card grid-rowspan-2">
   </div-->
