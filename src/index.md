@@ -165,8 +165,8 @@ function chartGrantsByConvener(width) { //, height) {
           fontSize: 14,
           format: {
             x: (d) => `${numberToLocaleString(d)}` 
-          },
-          x: 2000
+          }//,
+          //x: 2000
         } // (d) => numberToLocaleString(d.value) //"x"
       }),
 
@@ -194,17 +194,48 @@ function chartGrantsByConvener(width) { //, height) {
 }
 
 
-function chartGrantAmountPerYear(width) {
+function chartGrantAmountPerYear(width, height) {
   return Plot.plot({
-    //x: {type: "utc", ticks: "year", label: null},
+    height,
+    //marginBottom: 0,
+    //marginLeft: 70,
+    //marginRight: -230,    //x: {type: "utc", ticks: "year", label: null},
     //y: {grid: true, inset: 10, label: "Degrees (F)"},
+    y: {
+      label: "Millones €",
+      transform: (d) => d / 1000000,
+    },
+    x: {
+      label: "Año",
+    },
     marks: [
-      Plot.lineY(stats.grant_amount_per_year, {
-        x: 0,
-        y: 1,
+      //Plot.ruleY([0]),
+      Plot.gridY({
+        strokeDasharray: "0.75,2", // dashed
+        strokeOpacity: 1, // opaque
+        //interval: 20
+      }),
+      Plot.line(stats.grant_amount_per_year, {
+        //x: 0,
+        //y: 1,
         //z: null, // varying color, not series
-        stroke: "blue",
-        curve: "step-after"
+        stroke: "#568bea",
+        curve: "step",
+        tip: {
+          fontSize: 14,
+          format: {
+            y: (d) => `${numberToLocaleString(d)}`,
+            x: ''
+          }
+        }
+      }),
+      Plot.axisX({
+        labelArrow: "none",
+        tickSize: 0,
+      }),
+      Plot.axisY({
+        labelArrow: "none",
+        tickSize: 0,
       })
     ]
   })
@@ -282,7 +313,7 @@ display(json_input)
   </div>
   <div class="card grid-colspan-2 grid-rowspan-2">
     <h2>Cantidad por año</h2>
-    ${resize((width) => chartGrantAmountPerYear(width))}
+    ${resize((width, height) => chartGrantAmountPerYear(width, height))}
   </div>
   <!--div class="card grid-rowspan-2">
   </div-->
@@ -307,7 +338,7 @@ display(json_input)
   </div>
 </div>
 
-<div class="grid grid-cols-4">
+<div class="grid grid-cols-4" style="grid-auto-rows: auto;">
   <div class="card grid-colspan-2">${showSelection(tableSelection)}</div>
   <div class="card grid-colspan-2" >
     <p style="float: right;">Última actualización: ${stats.build_date}</p>
