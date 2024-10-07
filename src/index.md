@@ -65,9 +65,13 @@ const json_input = await FileAttachment("./data/granted-benefits.json").json();
 let stats = json_input['stats']
 let grantedBenefits = json_input['granted-benefits']
 let years = stats.year_range
-/*
 const zip = await FileAttachment("./data/granted-benefits.zip").zip();
 let unzip = {}
+for (const i in zip.filenames) {
+  const filename = zip.filenames[i]
+  unzip[filename] = await zip.file(filename).json();
+}
+/*
 let years = []
 
 let json_input_count = 0
@@ -297,10 +301,10 @@ function showSelection(selection) {
 
 ```js
 //debugger
-//display('json:')
+display('json:')
 display(json_input)
-//display('zip')
-//display(grantedBenefits)
+display('zip')
+display(unzip)
 //display(grantsByConvener)
 //display(d3.group(grantedBenefits, d => d.convener_name))
 ```
