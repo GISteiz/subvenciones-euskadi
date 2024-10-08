@@ -11,7 +11,7 @@ ___
 
 ```js
 import {YearlyPlot} from "./components/charts/yearlyPlot.js";
-import {GrantsByConvenerPlot} from "./components/charts/yearlyPlot.js";
+import {GrantsByConvenerPlot} from "./components/charts/grantsByConvenerPlot.js";
 import * as hp from "./components/helpers.js";
 import * as dict from "./components/dictionary.js";
 ```
@@ -87,75 +87,6 @@ const grantsByConvener = d3
   .map(([name, value]) => ({name, value}))
   .sort((a, b) => d3.descending(a.value, b.value));
 
-function chartGrantsByConvener(width) { //, height) {
-  return Plot.plot({
-    width,
-    //height: height,
-    marginBottom: 35,
-    marginLeft: 0,
-    marginRight: 5,
-    x: {
-      //tickRotate: -90,
-      label: "Millones €",
-      transform: (d) => d / 1000000,
-      //insetLeft: -25
-    },
-    y: {
-      padding: 0.2,
-      label: "Organismo",
-      //insetBottom: 10 // reserve space for inset labels
-    },
-    marks: [
-      //Plot.ruleX([0]),
-      
-      Plot.gridX({
-        strokeDasharray: "0.75,2", // dashed
-        strokeOpacity: 1, // opaque
-        //interval: 20
-      }),
-
-      Plot.barX(grantsByConvener, {
-        x: "value",
-        y: "name",
-        sort: { y: "x", reverse: true },
-        fill: "#568bea",
-        dx: 0,
-        dy: 0,
-        textAnchor: "start",
-        tip: {
-          fontSize: 14,
-          format: {
-            x: (d) => `${hp.numberToLocaleString(d)}` 
-          }//,
-          //x: 2000
-        } // (d) => hp.numberToLocaleString(d.value) //"x"
-      }),
-
-      Plot.axisX({
-        labelArrow: "none",
-        //interval: 20,
-        tickSize: 0, // don’t draw ticks
-        //dx: 10,
-        //dy: -20,
-        //tickformat: (d) => `${hp.numberToLocaleString(d)}`
-      }),
-      Plot.axisY({
-        label: null,
-        //fontFamily : "",
-        fontSize: 12,
-        tickSize: 0, // don’t draw ticks
-        tickFormat: (d) => dict.shortNames[d] || d,
-        textAnchor: "start",
-        dy: 0,
-        dx: 20
-      }),
-
-      //Plot.tip(grantsByConvener, Plot.pointerX({x: "value", y: "name"}))
-    ]
-  })
-}
-
-
 //const dpdnConvenerSelectorInput = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
 //TODO: add year and convener selectors
 
@@ -164,8 +95,8 @@ const searchInput = Inputs.search(grantedBenefits, {
   columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount", "beneficiary_id"],
 });
 const search = Generators.input(searchInput);
-
 ```
+
 ```js
 const grantTableInput = Inputs.table(search, {
   columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount"],
@@ -249,8 +180,22 @@ if (Object.keys(unzip).length > 0) {
   <div class="grid grid-cols-4">
     <div class="card" style="overflow: auto;">
       <h2>Subvenciones por Organismo</h2>
-      <!-- ${resize((width, height) => chartGrantsByConvener(width, height*0.9))} -->
-      ${resize((width) => chartGrantsByConvener(width))}
+      ${resize((width) =>
+        GrantsByConvenerPlot(grantsByConvener, {
+          width,
+          marginBottom: 35,
+          marginLeft: 0,
+          marginRight: 5,
+          x: {
+            label: "Millones €",
+            transform: (d) => d / 1000000,
+          },
+          y: {
+            padding: 0.2,
+            label: "Organismo",
+          },
+        })
+      )}
     </div>
     <div class="card">
       <h2>Cantidad por año</h2>
@@ -259,7 +204,6 @@ if (Object.keys(unzip).length > 0) {
           width,
           marginRight: 0,
           marginLeft: 0,
-          //x,
           y: {
             label: "Millones €",
             transform: (d) => d / 1000000
