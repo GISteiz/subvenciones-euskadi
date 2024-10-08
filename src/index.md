@@ -2,35 +2,20 @@
 theme: [dashboard, light]
 toc: false
 ---
+
 # Subvenciones en Euskadi
 
 Datos obtenidos de la API de subvenciones concedidas del portal [Open Data Euskadi](https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/).
+
 ___
 
 ```js
-/* Helper functions */
+import {YearlyPlot} from "./components/charts/yearlyPlot.js";
+import * as hp from "./components/helpers.js";
+```
 
-/**
- * Rounds a number to 2 decimal places, avoiding floating point precision issues
- * @param {number} num - number to round
- * @returns {number} - rounded number
- */
-function round2(num) {
-  return Math.round((num + Number.EPSILON) * 100) / 100
-}
 
-function numberToLocaleString(n, amount) {
-  n = round2(n)
-  if (amount == 'millones') {
-    return (n / 1000000).toLocaleString("es-ES") + ' ' + amount
-  }
-  else if (amount == 'miles') {
-    return (n / 1000).toLocaleString("es-ES") + ' ' + amount
-  }
-  else { 
-    return n.toLocaleString("es-ES")
-  }
-}
+```js
 
 function sparkbarColor(x) {
   if (x >= 0) {
@@ -52,7 +37,7 @@ function sparkbar(max) {
     box-sizing: border-box;
     overflow: visible;
     display: flex;
-    justify-content: end;">${numberToLocaleString(x)}`
+    justify-content: end;">${hp.numberToLocaleString(x)}`
 }
 ```
 
@@ -65,46 +50,16 @@ const json_input = await FileAttachment("./data/granted-benefits.json").json();
 let stats = json_input['stats']
 let grantedBenefits = json_input['granted-benefits']
 let years = stats.year_range
-const zip = await FileAttachment("./data/granted-benefits.zip").zip();
+
 let unzip = {}
+  /*
+const zip = await FileAttachment("./data/granted-benefits.zip").zip();
 for (const i in zip.filenames) {
   const filename = zip.filenames[i]
   unzip[filename] = await zip.file(filename).json();
 }
-/*
-let years = []
-
-let json_input_count = 0
-for (const i in json_input) {
-  json_input_count += json_input[i].length
-}
-
-for (const i in zip.filenames) {
-  const filename = zip.filenames[i]
-  const year = filename.split('.')[0]
-  years.push(year)
-  unzip[year] = await zip.file(filename).json();
-}
-console.log(new Date().toString());
-//const year_2015 = await zip.file("2015.json").json();
-
-let grantedBenefits = []
-for (const year in unzip) {
-  const yearData = unzip[year] // yearData is array
-  for (const i in yearData) {
-    grantedBenefits.push(yearData[i])
-  }
-  
-}
-
 */
 console.log(new Date().toString());
-//console.log(grantedBenefits)
-//debugger
-
-//const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
-//const grantedBenefits = FileAttachment("./data/granted-benefits_backup.json").json();
-//const grantedBenefitsRaw = FileAttachment("./data/granted-benefits_backup.json").json();
 ```
 
 ```js
@@ -168,10 +123,10 @@ function chartGrantsByConvener(width) { //, height) {
         tip: {
           fontSize: 14,
           format: {
-            x: (d) => `${numberToLocaleString(d)}` 
+            x: (d) => `${hp.numberToLocaleString(d)}` 
           }//,
           //x: 2000
-        } // (d) => numberToLocaleString(d.value) //"x"
+        } // (d) => hp.numberToLocaleString(d.value) //"x"
       }),
 
       Plot.axisX({
@@ -180,7 +135,7 @@ function chartGrantsByConvener(width) { //, height) {
         tickSize: 0, // don’t draw ticks
         //dx: 10,
         //dy: -20,
-        //tickformat: (d) => `${numberToLocaleString(d)}`
+        //tickformat: (d) => `${hp.numberToLocaleString(d)}`
       }),
       Plot.axisY({
         label: null,
@@ -196,55 +151,6 @@ function chartGrantsByConvener(width) { //, height) {
     ]
   })
 }
-
-
-function chartGrantAmountPerYear(width, height) {
-  return Plot.plot({
-    height,
-    //marginBottom: 0,
-    //marginLeft: 70,
-    //marginRight: -230,    //x: {type: "utc", ticks: "year", label: null},
-    //y: {grid: true, inset: 10, label: "Degrees (F)"},
-    y: {
-      label: "Millones €",
-      transform: (d) => d / 1000000,
-    },
-    x: {
-      label: "Año",
-    },
-    marks: [
-      //Plot.ruleY([0]),
-      Plot.gridY({
-        strokeDasharray: "0.75,2", // dashed
-        strokeOpacity: 1, // opaque
-        //interval: 20
-      }),
-      Plot.line(stats.grant_amount_per_year, {
-        //x: 0,
-        //y: 1,
-        //z: null, // varying color, not series
-        stroke: "#568bea",
-        curve: "step",
-        tip: {
-          fontSize: 14,
-          format: {
-            y: (d) => `${numberToLocaleString(d)}`,
-            x: ''
-          }
-        }
-      }),
-      Plot.axisX({
-        labelArrow: "none",
-        tickSize: 0,
-      }),
-      Plot.axisY({
-        labelArrow: "none",
-        tickSize: 0,
-      })
-    ]
-  })
-}
-
 
 
 //const dpdnConvenerSelectorInput = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
@@ -303,35 +209,58 @@ function showSelection(selection) {
 //debugger
 display('json:')
 display(json_input)
-display('zip')
-display(unzip)
+
+if (Object.keys(unzip).length > 0) {
+  display('zip')
+  display(unzip)
+}
 //display(grantsByConvener)
 //display(d3.group(grantedBenefits, d => d.convener_name))
 ```
+<div class="row charts">
+  <div class="grid grid-cols-3">
+    <div class="card" style="overflow: auto;">
+      <h2>Subvenciones por Organismo</h2>
+      <!-- ${resize((width, height) => chartGrantsByConvener(width, height*0.9))} -->
+      ${resize((width) => chartGrantsByConvener(width))}
+    </div>
+    <div class="card">
+      <h2>Cantidad por año</h2>
+      ${resize((width) =>
+        YearlyPlot(stats.grant_amount_per_year, {
+          width,
+          marginRight: 60,
+          //x,
+          y: { label: "Millones €", transform: (d) => d / 1000000, }
+        })
+      )}
+    </div>
+    <div class="card">
+      <h2>placeholder for chart</h2>
+    </div>
+  </div>
+</div>
 
-<div class="grid grid-cols-4" style="max-height: 200px;">
-  <div class="card grid-rowspan-2" style="overflow: auto;">
-    <h2>Subvenciones por Organismo</h2>
-    <!-- ${resize((width, height) => chartGrantsByConvener(width, height*0.9))} -->
-    ${resize((width) => chartGrantsByConvener(width))}
-  </div>
-  <div class="card grid-colspan-2 grid-rowspan-2">
-    <h2>Cantidad por año</h2>
-    ${resize((width, height) => chartGrantAmountPerYear(width, height))}
-  </div>
-  <!--div class="card grid-rowspan-2">
-  </div-->
-  <div class="card grid-rowspan-1">
-    <h2>Cantidad aportada</h2>
-    <p class="big">
-      ${numberToLocaleString(d3.sum(grantedBenefits, d => d.granted_amount), 'millones')} €
-    </p>
-  </div>
-  <div class="card grid-rowspan-1">
-    <h2>Número de subvenciones</h2>
-    <p class="big">
-      ${numberToLocaleString(grantedBenefits.length)}
-    </p>
+<div class="row indicators">
+  <div class="grid grid-cols-4">
+    <div class="card">
+      <h2>Cantidad aportada</h2>
+      <p class="big">
+        ${hp.numberToLocaleString(d3.sum(grantedBenefits, d => d.granted_amount), 'millones')} €
+      </p>
+    </div>
+    <div class="card">
+      <h2>Número de subvenciones</h2>
+      <p class="big">
+        ${hp.numberToLocaleString(grantedBenefits.length)}
+      </p>
+    </div>
+    <div class="card">
+      <h2>placeholder for indicator</h2>
+    </div>
+    <div class="card">
+      <h2>placeholder for indicator</h2>
+    </div>
   </div>
 </div>
 
