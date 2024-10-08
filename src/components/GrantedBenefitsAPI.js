@@ -1,6 +1,6 @@
 /**
  * Downloads all granted benefits data for a given year range, formatted and minified conveniently for use in the frontend.
- * @param {number} elements - number of items that the api will return
+ * @param {number} elements - number of items by page, it will define the number of requests we need to get the complete dataset from the api
  * @param {number} init_year - year to start retrieving data from
  * @returns {Promise<Object>} - object containing relevant stats and an array of minified grant objects
  * @throws {Error}
@@ -214,10 +214,20 @@ export default async function getData(elements, init_year) {
   stats['build_date'] = now.toLocaleString('es-ES').split(',')[0]
   stats['year_range'] = years
   stats['total_grant_count'] = allGrants.length
-  stats['grant_count_per_year'] = years.map(year => [year, allGrants.filter(grant => grant.year == year).length])
+  stats['grant_count_per_year'] = years.map(function (year) {
+    return {
+      year: year,
+      value: allGrants.filter(grant => grant.year == year).length
+    }
+  })
   stats['total_grant_amount'] = allGrants.reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
-  stats['grant_amount_per_year'] = years.map(year => [year, allGrants.filter(grant => grant.year == year).reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)])
-
+  stats['grant_amount_per_year'] = years.map(function (year) {
+    return {
+      year,
+      value: allGrants.filter(grant => grant.year == year).reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
+    }
+  })
+  
   stats['convener_index'] = {}
   allGrants.map(grant => { 
     if (!stats['convener_index'][grant.convener_id]) {
@@ -225,14 +235,17 @@ export default async function getData(elements, init_year) {
     }
   })
 
-  stats['grant_amount_by_convener'] = Object.keys(stats['convener_index']).map(convener_id => [
-    convener_id, allGrants
-      .filter(grant => grant.convener_id == convener_id)
-      .reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
-  ]).sort((a, b) => b[1] - a[1])
+  stats['grant_amount_by_convener'] = Object.keys(stats['convener_index']).map(function (convener_id) {
+    return {
+      convener_id: convener_id,
+      value: allGrants
+        .filter(grant => grant.convener_id == convener_id)
+        .reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
+    }
+  })//.sort((a, b) => b[1] - a[1])
 
   //TODO: grant_amount_by_convener_per_year
-
+/*
   stats['beneficiary_index'] = {}
   allGrants.map(grant => { 
     if (!stats['beneficiary_index'][grant.beneficiary_id]) {
@@ -248,7 +261,7 @@ export default async function getData(elements, init_year) {
   ]).sort((a, b) => b[1] - a[1])
     .slice(0, 100)
     //.slice(Object.keys(stats['beneficiary_index']).length - 100, Object.keys(stats['beneficiary_index']).length)
-
+*/
   
   return {
     "stats": stats,
