@@ -11,7 +11,9 @@ ___
 
 ```js
 import {YearlyPlot} from "./components/charts/yearlyPlot.js";
+import {GrantsByConvenerPlot} from "./components/charts/yearlyPlot.js";
 import * as hp from "./components/helpers.js";
+import * as dict from "./components/dictionary.js";
 ```
 
 
@@ -142,6 +144,7 @@ function chartGrantsByConvener(width) { //, height) {
         //fontFamily : "",
         fontSize: 12,
         tickSize: 0, // don’t draw ticks
+        tickFormat: (d) => dict.shortNames[d] || d,
         textAnchor: "start",
         dy: 0,
         dx: 20
@@ -217,29 +220,7 @@ if (Object.keys(unzip).length > 0) {
 //display(grantsByConvener)
 //display(d3.group(grantedBenefits, d => d.convener_name))
 ```
-<div class="row charts">
-  <div class="grid grid-cols-3">
-    <div class="card" style="overflow: auto;">
-      <h2>Subvenciones por Organismo</h2>
-      <!-- ${resize((width, height) => chartGrantsByConvener(width, height*0.9))} -->
-      ${resize((width) => chartGrantsByConvener(width))}
-    </div>
-    <div class="card">
-      <h2>Cantidad por año</h2>
-      ${resize((width) =>
-        YearlyPlot(stats.grant_amount_per_year, {
-          width,
-          marginRight: 60,
-          //x,
-          y: { label: "Millones €", transform: (d) => d / 1000000, }
-        })
-      )}
-    </div>
-    <div class="card">
-      <h2>placeholder for chart</h2>
-    </div>
-  </div>
-</div>
+
 
 <div class="row indicators">
   <div class="grid grid-cols-4">
@@ -260,6 +241,34 @@ if (Object.keys(unzip).length > 0) {
     </div>
     <div class="card">
       <h2>placeholder for indicator</h2>
+    </div>
+  </div>
+</div>
+
+<div class="row charts">
+  <div class="grid grid-cols-4">
+    <div class="card" style="overflow: auto;">
+      <h2>Subvenciones por Organismo</h2>
+      <!-- ${resize((width, height) => chartGrantsByConvener(width, height*0.9))} -->
+      ${resize((width) => chartGrantsByConvener(width))}
+    </div>
+    <div class="card">
+      <h2>Cantidad por año</h2>
+      ${resize((width) =>
+        YearlyPlot(stats.grant_amount_per_year, {
+          width,
+          marginRight: 0,
+          marginLeft: 0,
+          //x,
+          y: {
+            label: "Millones €",
+            transform: (d) => d / 1000000
+          }
+        })
+      )}
+    </div>
+    <div class="card grid-colspan-2">
+      <h2>placeholder for chart</h2>
     </div>
   </div>
 </div>

@@ -4,13 +4,24 @@ import * as hp from "../helpers.js";
 export function YearlyPlot(data, { round = true, ...options } = {}) {
   return Plot.plot({
     ...options,
-    round,
+    //round,
+    x: {insetLeft: 26},
     marks: [
       Plot.gridY({
+        ticks: 4,
         strokeDasharray: "0.75,2", // dashed
         strokeOpacity: 1, // opaque
       }),
-      Plot.axisY({anchor: "right", labelArrow: "none", tickSize: 0, label: null}),
+      Plot.axisY({
+        ticks: 4,
+        labelArrow: "none",
+        anchor: "left",
+        tickSize: 0,
+        label: null,
+        tickFormat: (d) => `${hp.numberToLocaleString(d)}`,
+        dx: 30, // offset right
+        dy: -6, // offset up
+      }),
       Plot.axisX({labelArrow: "none", tickSize: 0, label: null}),
       Plot.barY(data, {
         x: "year",
