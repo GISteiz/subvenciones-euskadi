@@ -28,7 +28,7 @@ export function YearlyPlot(data, { round = true, ...options } = {}) {
         y: "value",
         fillOpacity: 0.2,
         tip: {
-          fontSize: 14,
+          fontSize: 12,
           format: {
             y: (d) => `${hp.numberToLocaleString(d)}`,
             x: null // remove year from tooltip

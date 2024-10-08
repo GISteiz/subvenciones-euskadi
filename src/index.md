@@ -12,49 +12,16 @@ ___
 ```js
 import {YearlyPlot} from "./components/charts/yearlyPlot.js";
 import {GrantsByConvenerPlot} from "./components/charts/grantsByConvenerPlot.js";
+import {Sparkbar} from "./components/charts/sparkbar.js";
 import * as hp from "./components/helpers.js";
 import * as dict from "./components/dictionary.js";
 ```
 
-
 ```js
-
-function sparkbarColor(x) {
-  if (x >= 0) {
-    return '#568bea'
-  }
-  else {
-    return '#c44e52'
-  }
-}
-
-function sparkbar(max) {
-  return (x) => htl.html`<div style="
-    background: ${sparkbarColor(x)};
-    color: black;
-    font: 10px/1.6 var(--sans-serif);
-    width: ${100 * Math.abs(x) / max}%;
-    float: right;
-    padding-right: 3px;
-    box-sizing: border-box;
-    overflow: visible;
-    display: flex;
-    justify-content: end;">${hp.numberToLocaleString(x)}`
-}
-```
-
-```js
-/* Load data */
-
 console.log(new Date().toString());
 const json_input = await FileAttachment("./data/granted-benefits.json").json(); 
-
-let stats = json_input['stats']
-let grantedBenefits = json_input['granted-benefits']
-let years = stats.year_range
-
 let unzip = {}
-  /*
+/*
 const zip = await FileAttachment("./data/granted-benefits.zip").zip();
 for (const i in zip.filenames) {
   const filename = zip.filenames[i]
@@ -65,22 +32,14 @@ console.log(new Date().toString());
 ```
 
 ```js
-function getYearRange() {
-  return `Desde ${Math.min(...years)} hasta ${Math.max(...years)}`
-}
-/*
-let year
-if (grantedBenefits[0].ISBACKUP) {
-//if (grantedBenefitsRaw[0].ISBACKUP) {
-  display(html`<h2>BACKUP DATA</h2>`);
-  year = grantedBenefits[0].granted_date.split('-')[0];
-}
-else {
-  year = ''
-}
-*/
+// Global variables
+let stats = json_input['stats']
+let grantedBenefits = json_input['granted-benefits']
+let years = stats.year_range
+```
 
-// Grants by convener
+```js
+// Data processing
 const grantsByConvener = d3
   .rollups(grantedBenefits, v => d3.sum(v, d => d.granted_amount), d => d.convener_name)
   //.rollups(grantedBenefits, (d) => d.granted_amount, (v) => v.convener_name)
@@ -117,7 +76,7 @@ const grantTableInput = Inputs.table(search, {
   format: {
     convener_name: d => htl.html`<span style="white-space:normal">${d}`,
     beneficiary_name: d => htl.html`<span style="white-space:normal">${d}`,
-    granted_amount: sparkbar(d3.max(grantedBenefits, d => d.granted_amount))
+    granted_amount: Sparkbar(d3.max(grantedBenefits, d => d.granted_amount))
   },
   multiple: false
 });
@@ -137,7 +96,7 @@ function showSelection(selection) {
 
 ```
 
-## ${getYearRange()} | <small style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</small>
+## Desde ${Math.min(...years)} hasta ${Math.max(...years)} | <small style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</small>
 
 ```js
 //debugger
@@ -157,9 +116,10 @@ if (Object.keys(unzip).length > 0) {
   <div class="grid grid-cols-4">
     <div class="card">
       <h2>Cantidad aportada</h2>
-      <p class="big">
-        ${hp.numberToLocaleString(d3.sum(grantedBenefits, d => d.granted_amount), 'millones')} €
+      <p class="big" style="margin-bottom: 5px;">
+        ${hp.numberToLocaleString(d3.sum(grantedBenefits, d => d.granted_amount), 'millones')}
       </p>
+      <p class="small" style="margin-top: 5px;">millones €</p>
     </div>
     <div class="card">
       <h2>Número de subvenciones</h2>
