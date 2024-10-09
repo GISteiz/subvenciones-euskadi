@@ -6,7 +6,7 @@ toc: false
 
 <div class="row indicators">
   <div class="grid grid-cols-1">
-    <h1 style="max-width: 840px">Subvenciones en Euskadi | <small> Desde ${Math.min(...years)} hasta ${Math.max(...years)}</small></h1>
+    <h1 style="max-width: 840px">Subvenciones en Euskadi | <small> Desde ${Math.min(...stats.year_range)} hasta ${Math.max(...stats.year_range)}</small></h1>
   </div>
 </div>
 
@@ -22,6 +22,7 @@ import {DailyPlot} from "./components/charts/dailyPlot.js";
 import {GrantsByConvenerPlot} from "./components/charts/grantsByConvenerPlot.js";
 import {GrantSearch} from "./components/inputs/grantSearch.js";
 import {GrantTable} from "./components/inputs/grantTable.js";
+import {YearSelect} from "./components/inputs/yearSelect.js";
 import {Display} from "./components/display.js";
 
 import * as hp from "./components/helpers.js";
@@ -46,7 +47,7 @@ console.log(new Date().toString());
 // Global variables
 let stats = json_input['stats']
 let grantedBenefits = json_input['granted-benefits']
-let years = stats.year_range
+let years = stats.year_range.map( y => y.toString() ) 
 ```
 
 ```js
@@ -62,25 +63,45 @@ const grantsByDay = d3
   //.rollups(grantedBenefits, (d) => d.granted_amount, (v) => v.convener_name)
   .map(([date, value]) => ({date, value}))
 
-display(grantsByDay)
+display(filteredData)
+```
+
+```js
+//TODO: add year and convener selectors
+//const dpdnConvenerSelectorInput = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
+
+const yearSelectInput = YearSelect(years, Inputs);
+const yearSelection = Generators.input(yearSelectInput);
 ```
 
 ```js
 // Search Input
-
-//TODO: add year and convener selectors
-
-//const dpdnConvenerSelectorInput = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
-
 const searchInput = GrantSearch(grantedBenefits, Inputs);
-const search = Generators.input(searchInput);
+let filteredData = Generators.input(searchInput);
 ```
 
 ```js
 //Table Input
-const grantTableInput = GrantTable(search, Inputs)
+const grantTableInput = GrantTable(filteredData, Inputs)
 const tableSelection = Generators.input(grantTableInput);
 ```
+
+```js
+// Event handlers
+/*
+yearSelectInput.oninput = (event, filteredData) => {
+  if (!event.bubbles) return;
+  filteredData = grantedBenefits.filter(function(grant) {
+    if (yearSelection == 'Seleccionar año') return true
+    if (grant.year == yearSelection) return true
+    return false
+    debugger
+  })
+  filteredData.dispatchEvent(new Event("input"));
+}
+*/
+```
+
 
 ```js
 /*
@@ -116,7 +137,9 @@ if (Object.keys(unzip).length > 0) {
       <h2>placeholder for indicator</h2>
     </div>
     <div class="card">
-      <h2>placeholder for indicator</h2>
+      <h2>Filtros</h2>
+      ${yearSelectInput}
+      ${yearSelection}
     </div>
   </div>
 </div>
