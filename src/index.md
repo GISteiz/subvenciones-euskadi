@@ -9,12 +9,14 @@ Datos obtenidos de la API de subvenciones concedidas del portal [Open Data Euska
 
 ___
 
+## Desde ${Math.min(...years)} hasta ${Math.max(...years)} | <small style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</small>
+
 ```js
 import {YearlyPlot} from "./components/charts/yearlyPlot.js";
 import {GrantsByConvenerPlot} from "./components/charts/grantsByConvenerPlot.js";
-import {Sparkbar} from "./components/charts/sparkbar.js";
 import {GrantSearch} from "./components/inputs/grantSearch.js";
 import {GrantTable} from "./components/inputs/grantTable.js";
+import {Display} from "./components/display.js";
 
 import * as hp from "./components/helpers.js";
 import * as dict from "./components/dictionary.js";
@@ -52,32 +54,21 @@ const grantsByConvener = d3
 ```
 
 ```js
+// Search Input
+
+//TODO: add year and convener selectors
 
 //const dpdnConvenerSelectorInput = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
-//TODO: add year and convener selectors
 
 const searchInput = GrantSearch(grantedBenefits, Inputs);
 const search = Generators.input(searchInput);
 ```
 
 ```js
+//Table Input
 const grantTableInput = GrantTable(search, Inputs)
 const tableSelection = Generators.input(grantTableInput);
-
-function showSelection(selection) {
-  if (selection) {
-    console.log(selection['oid'])
-    return htl.html`
-      <p>${selection['beneficiary_name']} | ${selection['beneficiary_id']}</p>
-      <p>${selection['name']}</p>
-      <p>${selection['convener_name']}</p>`
-  }
-  else { return '' }
-}
-
 ```
-
-## Desde ${Math.min(...years)} hasta ${Math.max(...years)} | <small style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</small>
 
 ```js
 //debugger
@@ -166,7 +157,7 @@ if (Object.keys(unzip).length > 0) {
 </div>
 
 <div class="grid grid-cols-4" style="grid-auto-rows: auto;">
-  <div class="card grid-colspan-2">${showSelection(tableSelection)}</div>
+  <div class="card grid-colspan-2">${Display.grantSelection(tableSelection)}</div>
   <div class="card grid-colspan-2" >
     <p style="float: right;">Última actualización: ${stats.build_date}</p>
   </div>
