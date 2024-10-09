@@ -1,18 +1,24 @@
 ---
+title: Subvenciones en Euskadi
 theme: [dashboard, light]
 toc: false
 ---
 
-# Subvenciones en Euskadi
+<div class="row indicators">
+  <div class="grid grid-cols-1">
+    <h1 style="max-width: 840px">Subvenciones en Euskadi | <small> Desde ${Math.min(...years)} hasta ${Math.max(...years)}</small></h1>
+  </div>
+</div>
+
+<h3 style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</h3> 
 
 Datos obtenidos de la API de subvenciones concedidas del portal [Open Data Euskadi](https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/).
 
 ___
 
-## Desde ${Math.min(...years)} hasta ${Math.max(...years)} | <small style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</small>
-
 ```js
 import {YearlyPlot} from "./components/charts/yearlyPlot.js";
+import {DailyPlot} from "./components/charts/dailyPlot.js";
 import {GrantsByConvenerPlot} from "./components/charts/grantsByConvenerPlot.js";
 import {GrantSearch} from "./components/inputs/grantSearch.js";
 import {GrantTable} from "./components/inputs/grantTable.js";
@@ -51,6 +57,12 @@ const grantsByConvener = d3
   .map(([name, value]) => ({name, value}))
   .sort((a, b) => d3.descending(a.value, b.value));
 
+const grantsByDay = d3
+  .rollups(grantedBenefits, v => d3.sum(v, d => d.granted_amount), d => new Date(d.granted_date))
+  //.rollups(grantedBenefits, (d) => d.granted_amount, (v) => v.convener_name)
+  .map(([date, value]) => ({date, value}))
+
+display(grantsByDay)
 ```
 
 ```js
@@ -71,6 +83,7 @@ const tableSelection = Generators.input(grantTableInput);
 ```
 
 ```js
+/*
 //debugger
 display('json:')
 display(json_input)
@@ -81,8 +94,8 @@ if (Object.keys(unzip).length > 0) {
 }
 //display(grantsByConvener)
 //display(d3.group(grantedBenefits, d => d.convener_name))
+*/
 ```
-
 
 <div class="row indicators">
   <div class="grid grid-cols-4">
@@ -91,7 +104,7 @@ if (Object.keys(unzip).length > 0) {
       <p class="big" style="margin-bottom: 5px;">
         ${hp.numberToLocaleString(d3.sum(grantedBenefits, d => d.granted_amount), 'millones')}
       </p>
-      <p class="small" style="margin-top: 5px;">millones €</p>
+      <p class="muted" style="margin-top: 5px;">millones €</p>
     </div>
     <div class="card">
       <h2>Número de subvenciones</h2>
@@ -130,7 +143,7 @@ if (Object.keys(unzip).length > 0) {
       )}
     </div>
     <div class="card">
-      <h2>Cantidad por año</h2>
+      <h2>Concedido por año</h2>
       ${resize((width) =>
         YearlyPlot(stats.grant_amount_per_year, {
           width,
@@ -144,7 +157,15 @@ if (Object.keys(unzip).length > 0) {
       )}
     </div>
     <div class="card grid-colspan-2">
-      <h2>placeholder for chart</h2>
+      <h2>Concedido por día</h2>
+      ${resize((width) =>
+        DailyPlot(grantsByDay, {
+          width,
+          marginRight: 40,
+          x: {label: "Fecha"},
+          //y: {label: "Concedido"},
+        })
+      )}
     </div>
   </div>
 </div>

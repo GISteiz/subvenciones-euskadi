@@ -43,7 +43,8 @@ export function GrantsByConvenerPlot(data, {...options } = {}) {
         textAnchor: "start",
         dy: 0,
         dx: 20
-        })
+      }),
+      Plot.ruleX([0])
       //Plot.tip(grantsByConvener, Plot.pointerX({x: "value", y: "name"}))
     ]
   })

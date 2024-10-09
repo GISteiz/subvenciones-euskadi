@@ -24,7 +24,7 @@ export default {
 
   // Some additional configuration options and their defaults:
   // theme: "dashboard", // try "light", "dark", "slate", etc.
-  //header: "", // what to show in the header (HTML)
+  // header: "<h1>Subvenciones en Euskadi</h1>", // what to show in the header (HTML)
   footer: "<row>Built with <a href='https://observablehq.com/' target='_blank' rel='noopener noreferrer'>Observable</a>. Developed by <a href='https://gisteiz.github.io/' target='_blank'>GISteiz</a>.<div style='text-align: end;'><img src='assets/images/logo_gisteiz.svg' height='60px'/></div></row>", // what to show in the footer (HTML)
   // sidebar: true, // whether to show the sidebar
   // toc: true, // whether to show the table of contents
