@@ -4,7 +4,7 @@ theme: [dashboard, light]
 toc: false
 ---
 
-<div class="row indicators">
+<div class="row">
   <div class="grid grid-cols-1">
     <h1 style="max-width: 840px">Subvenciones en Euskadi | <small> Desde ${Math.min(...stats.year_range)} hasta ${Math.max(...stats.year_range)}</small></h1>
   </div>
@@ -193,17 +193,22 @@ if (Object.keys(unzip).length > 0) {
   </div>
 </div>
 
-<div class="grid grid-cols-1" style="margin-top: 30px;">
-  <div class="card">
+<div class="grid grid-cols-4" style="margin-top: 30px;">
+  <div class="card grid-colspan-3">
     <p>${searchInput}</p>
     <div>${grantTableInput}</div>
   </div>
+
+  <div class="card grid-cols-1" style="grid-auto-rows: auto;">${Display.grantSelection(tableSelection)}</div>
+
 </div>
 
-<div class="grid grid-cols-4" style="grid-auto-rows: auto;">
-  <div class="card grid-colspan-2">${Display.grantSelection(tableSelection)}</div>
-  <div class="card grid-colspan-2" >
-    <p style="float: right;">Última actualización: ${stats.build_date}</p>
-  </div>
+<div class="grid grid-cols-1" style="grid-auto-rows: auto;">
+    <row>
+      <div style="float: right; text-align: right">
+        <p><small>Última actualización: ${stats.build_date}</small></p>
+        <span><img src='assets/images/logo_gisteiz.svg' height='60px'/></span>
+      </div>
+    </row>
 </div>
 
