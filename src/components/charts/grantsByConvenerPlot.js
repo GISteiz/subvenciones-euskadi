@@ -9,6 +9,7 @@ export function GrantsByConvenerPlot(data, {...options } = {}) {
     ...options,
     marks: [
       Plot.gridX({
+        ticks: 4,
         strokeDasharray: "0.75,2", // dashed
         strokeOpacity: 1 // opaque
       }),

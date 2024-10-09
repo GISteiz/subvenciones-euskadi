@@ -13,6 +13,9 @@ ___
 import {YearlyPlot} from "./components/charts/yearlyPlot.js";
 import {GrantsByConvenerPlot} from "./components/charts/grantsByConvenerPlot.js";
 import {Sparkbar} from "./components/charts/sparkbar.js";
+import {GrantSearch} from "./components/inputs/grantSearch.js";
+import {GrantTable} from "./components/inputs/grantTable.js";
+
 import * as hp from "./components/helpers.js";
 import * as dict from "./components/dictionary.js";
 ```
@@ -46,41 +49,19 @@ const grantsByConvener = d3
   .map(([name, value]) => ({name, value}))
   .sort((a, b) => d3.descending(a.value, b.value));
 
+```
+
+```js
+
 //const dpdnConvenerSelectorInput = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
 //TODO: add year and convener selectors
 
-const searchInput = Inputs.search(grantedBenefits, {
-  placeholder: "Buscar subvenciones…",
-  columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount", "beneficiary_id"],
-});
+const searchInput = GrantSearch(grantedBenefits, Inputs);
 const search = Generators.input(searchInput);
 ```
 
 ```js
-const grantTableInput = Inputs.table(search, {
-  columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount"],
-  header: {
-    granted_date: "Fecha",
-    convener_name: "Convocante",
-    beneficiary_name: "Beneficiario",
-    granted_amount: "Cantidad (€)"
-  },
-  sort: "granted_amount",
-  reverse: true,
-  width: {
-    granted_date: "10%",
-    convener_name: "20%",
-    beneficiary_name: "50%",
-    granted_amount: "20%"
-  },
-  format: {
-    convener_name: d => htl.html`<span style="white-space:normal">${d}`,
-    beneficiary_name: d => htl.html`<span style="white-space:normal">${d}`,
-    granted_amount: Sparkbar(d3.max(grantedBenefits, d => d.granted_amount))
-  },
-  multiple: false
-});
-
+const grantTableInput = GrantTable(search, Inputs)
 const tableSelection = Generators.input(grantTableInput);
 
 function showSelection(selection) {
