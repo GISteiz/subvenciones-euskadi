@@ -20,6 +20,7 @@ export function GrantTable(data, Inputs) {
       granted_amount: "20%"
     },
     format: {
+      granted_date: d => htl.html`<span style="white-space:normal">${new Date(d).toLocaleDateString("es-ES")}`,
       convener_name: d => htl.html`<span style="white-space:normal">${d}`,
       beneficiary_name: d => htl.html`<span style="white-space:normal">${d}`,
       granted_amount: Sparkbar(d3.max(data, d => d.granted_amount))
