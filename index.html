@@ -5,18 +5,32 @@
 <title>Subvenciones en Euskadi | Subvenciones Euskadi</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
-<link rel="preload" as="style" href="./_observablehq/theme-near-midnight,alt,wide.da34dae3.css">
+<link rel="preload" as="style" href="./_observablehq/theme-air,alt,wide.bb950bfd.css">
 <link rel="preload" as="style" href="./_observablehq/stdlib/inputs.ea9fd553.css">
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&amp;display=swap" crossorigin>
-<link rel="stylesheet" type="text/css" href="./_observablehq/theme-near-midnight,alt,wide.da34dae3.css">
+<link rel="stylesheet" type="text/css" href="./_observablehq/theme-air,alt,wide.bb950bfd.css">
 <link rel="stylesheet" type="text/css" href="./_observablehq/stdlib/inputs.ea9fd553.css">
-<link rel="modulepreload" href="./_observablehq/client.c70e07fc.js">
-<link rel="modulepreload" href="./_observablehq/runtime.3f7f73d9.js">
-<link rel="modulepreload" href="./_observablehq/stdlib.2229c972.js">
-<link rel="modulepreload" href="./_npm/d3@7.9.0/7055d4c5.js">
+<link rel="modulepreload" href="./_observablehq/client.5890f157.js">
+<link rel="modulepreload" href="./_observablehq/runtime.ad036670.js">
+<link rel="modulepreload" href="./_observablehq/stdlib.14bb5491.js">
+<link rel="modulepreload" href="./_import/components/charts/yearlyPlot.efa8695c.js">
+<link rel="modulepreload" href="./_import/components/charts/dailyPlot.f2b8d2e2.js">
+<link rel="modulepreload" href="./_import/components/charts/grantsByConvenerPlot.75829670.js">
+<link rel="modulepreload" href="./_import/components/inputs/grantSearch.8c7efb68.js">
+<link rel="modulepreload" href="./_import/components/inputs/grantTable.525c6fb6.js">
+<link rel="modulepreload" href="./_import/components/inputs/yearSelect.c04b7b7b.js">
+<link rel="modulepreload" href="./_import/components/display.b15552ef.js">
+<link rel="modulepreload" href="./_import/components/helpers.54912903.js">
+<link rel="modulepreload" href="./_import/components/dictionary.1fe078c9.js">
+<link rel="modulepreload" href="./_npm/@observablehq/plot@0.6.16/e828d8c8.js">
 <link rel="modulepreload" href="./_npm/htl@0.3.1/063eb405.js">
-<link rel="modulepreload" href="./_observablehq/stdlib/inputs.e0c0bc10.js">
+<link rel="modulepreload" href="./_import/components/charts/sparkbar.a85781b0.js">
+<link rel="modulepreload" href="./_npm/d3@7.9.0/7055d4c5.js">
+<link rel="modulepreload" href="./_observablehq/stdlib/zip.1474210c.js">
+<link rel="modulepreload" href="./_observablehq/stdlib/inputs.84591b8f.js">
 <link rel="modulepreload" href="./_npm/isoformat@0.2.1/c68fbd73.js">
+<link rel="modulepreload" href="./_npm/jszip@3.10.1/c7801ba4.js">
+<link rel="modulepreload" href="./_npm/interval-tree-1d@1.0.4/a62ae5ce.js">
 <link rel="modulepreload" href="./_npm/d3-array@3.2.4/e95f898e.js">
 <link rel="modulepreload" href="./_npm/d3-axis@3.0.0/d44feff9.js">
 <link rel="modulepreload" href="./_npm/d3-brush@3.0.0/5830b12a.js">
@@ -47,81 +61,263 @@
 <link rel="modulepreload" href="./_npm/d3-timer@3.0.1/f31b5398.js">
 <link rel="modulepreload" href="./_npm/d3-transition@3.0.1/8debb4ba.js">
 <link rel="modulepreload" href="./_npm/d3-zoom@3.0.0/4b0cc581.js">
+<link rel="modulepreload" href="./_npm/binary-search-bounds@2.0.5/1ee6c50d.js">
 <link rel="modulepreload" href="./_npm/internmap@2.0.3/5eed35fd.js">
 <link rel="modulepreload" href="./_npm/delaunator@5.0.1/e67acb27.js">
 <link rel="modulepreload" href="./_npm/robust-predicates@3.0.2/8ac9039b.js">
-<link rel="icon" href="./_file/assets/images/observable.1af93621.png" type="image/png" sizes="32x32">
+<link rel="icon" href="./_file/assets/images/favicon.24c4c70f.ico" type="image/x-icon" sizes="32x32">
 <script type="module">
 
-import {define} from "./_observablehq/client.c70e07fc.js";
-import {registerFile} from "./_observablehq/stdlib.2229c972.js";
+import {define} from "./_observablehq/client.5890f157.js";
+import {registerFile} from "./_observablehq/stdlib.14bb5491.js";
 
-registerFile("./data/granted-benefits.json", {"name":"./data/granted-benefits.json","mimeType":"application/json","path":"./_file/data/granted-benefits.634274a8.json","lastModified":1727874799480,"size":339615});
+registerFile("./data/granted-benefits.zip", {"name":"./data/granted-benefits.zip","mimeType":"application/zip","path":"./_file/data/granted-benefits.2e7e9fba.zip","lastModified":1728528440955,"size":91859052});
 
-define({id: "036ea3cb", inputs: ["htl"], outputs: ["sparkbar"], body: (htl) => {
-function sparkbar(max) {
-  return (x) => htl.html`<div style="
-    background: var(--theme-blue);
-    color: white;
-    font: 10px/1.6 var(--sans-serif);
-    width: ${100 * x / max}%;
-    float: right;
-    padding-right: 3px;
-    box-sizing: border-box;
-    overflow: visible;
-    display: flex;
-    justify-content: end;">${x.toLocaleString("en-US")}`
-}
-return {sparkbar};
-}});
-
-define({id: "d5aea175", inputs: ["FileAttachment"], outputs: ["grantedBenefits"], body: (FileAttachment) => {
-const grantedBenefits = FileAttachment("./data/granted-benefits.json").json();
-return {grantedBenefits};
-}});
-
-define({id: "f8301b0c", inputs: ["Inputs","grantedBenefits","sparkbar","d3"], outputs: ["grantTable"], body: (Inputs,grantedBenefits,sparkbar,d3) => {
-//display(grantedBenefits);
-
-const grantTable = Inputs.table(grantedBenefits, {
-  //placeholder: "Buscar subvenciones…",
-  columns: ["granted_date", "convener_name", "beneficiary_name", "granted_amount"],
-  header: {
-    granted_date: "Fecha",
-    convener_name: "Convocante",
-    beneficiary_name: "Beneficiario",
-    granted_amount: "Cantidad (€)"
-  },
-  sort: "granted_amount",
-  reverse: true,
-  format: {
-    granted_amount: sparkbar(d3.max(grantedBenefits, d => d.granted_amount))
-  }
-});
-return {grantTable};
-}});
-
-define({id: "7fbe20c6", mode: "inline", inputs: ["grantTable","display"], body: async (grantTable,display) => {
+define({id: "f204e34b", mode: "inline", inputs: ["stats","display"], body: async (stats,display) => {
 display(await(
-grantTable
+Math.min(...stats.year_range)
+))
+}});
+
+define({id: "86b3aeda", mode: "inline", inputs: ["stats","display"], body: async (stats,display) => {
+display(await(
+Math.max(...stats.year_range)
+))
+}});
+
+define({id: "72e644b8", outputs: ["YearlyPlot","DailyPlot","GrantsByConvenerPlot","GrantSearch","GrantTable","YearSelect","Display","hp","dict"], body: async () => {
+const [{YearlyPlot}, {DailyPlot}, {GrantsByConvenerPlot}, {GrantSearch}, {GrantTable}, {YearSelect}, {Display}, hp, dict] = await Promise.all([import("./_import/components/charts/yearlyPlot.efa8695c.js"), import("./_import/components/charts/dailyPlot.f2b8d2e2.js"), import("./_import/components/charts/grantsByConvenerPlot.75829670.js"), import("./_import/components/inputs/grantSearch.8c7efb68.js"), import("./_import/components/inputs/grantTable.525c6fb6.js"), import("./_import/components/inputs/yearSelect.c04b7b7b.js"), import("./_import/components/display.b15552ef.js"), import("./_import/components/helpers.54912903.js"), import("./_import/components/dictionary.1fe078c9.js")]);
+
+
+return {YearlyPlot,DailyPlot,GrantsByConvenerPlot,GrantSearch,GrantTable,YearSelect,Display,hp,dict};
+}});
+
+define({id: "71b99c87", inputs: ["FileAttachment"], outputs: ["unzip","zip","json_input"], body: async (FileAttachment) => {
+//const json_input = await FileAttachment("./data/granted-benefits.json").json();
+let unzip = {}
+const zip = await FileAttachment("./data/granted-benefits.zip").zip();
+for (const i in zip.filenames) {
+  const filename = zip.filenames[i]
+  unzip[filename] = await zip.file(filename).json();
+}
+const json_input = unzip['granted-benefits.json']
+return {unzip,zip,json_input};
+}});
+
+define({id: "ad5d5cb6", inputs: ["json_input"], outputs: ["stats","grantedBenefits","years"], body: (json_input) => {
+// Global variables
+let stats = json_input['stats']
+let grantedBenefits = json_input['granted-benefits']
+let years = stats.year_range.map( y => y.toString() ) 
+return {stats,grantedBenefits,years};
+}});
+
+define({id: "6709c38e", inputs: ["d3","grantedBenefits"], outputs: ["grantsByConvener","grantsByDay"], body: (d3,grantedBenefits) => {
+// Data processing
+const grantsByConvener = d3
+  .rollups(grantedBenefits, v => d3.sum(v, d => d.granted_amount), d => d.convener_name)
+  .map(([name, value]) => ({name, value}))
+  .sort((a, b) => d3.descending(a.value, b.value));
+
+const grantsByDay = d3
+  .rollups(grantedBenefits, v => d3.sum(v, d => d.granted_amount), d => new Date(d.granted_date))
+  .map(([date, value]) => ({date, value}))
+return {grantsByConvener,grantsByDay};
+}});
+
+define({id: "210898ec", inputs: ["YearSelect","years","Inputs","Generators"], outputs: ["yearSelectInput","yearSelection"], body: (YearSelect,years,Inputs,Generators) => {
+const yearSelectInput = YearSelect(years, Inputs);
+const yearSelection = Generators.input(yearSelectInput);
+return {yearSelectInput,yearSelection};
+}});
+
+define({id: "72480863", inputs: ["GrantSearch","grantedBenefits","Inputs","Generators"], outputs: ["searchInput","filteredData"], body: (GrantSearch,grantedBenefits,Inputs,Generators) => {
+// Search Input
+const searchInput = GrantSearch(grantedBenefits, Inputs);
+let filteredData = Generators.input(searchInput);
+return {searchInput,filteredData};
+}});
+
+define({id: "dfbbdedb", inputs: ["GrantTable","filteredData","Inputs","Generators"], outputs: ["grantTableInput","tableSelection"], body: (GrantTable,filteredData,Inputs,Generators) => {
+//Table Input
+const grantTableInput = GrantTable(filteredData, Inputs)
+const tableSelection = Generators.input(grantTableInput);
+return {grantTableInput,tableSelection};
+}});
+
+define({id: "382cd89f", mode: "inline", inputs: ["hp","d3","grantedBenefits","display"], body: async (hp,d3,grantedBenefits,display) => {
+display(await(
+hp.numberToLocaleString(d3.sum(grantedBenefits, d => d.granted_amount), 'millones')
+))
+}});
+
+define({id: "5c8843bf", mode: "inline", inputs: ["hp","grantedBenefits","display"], body: async (hp,grantedBenefits,display) => {
+display(await(
+hp.numberToLocaleString(grantedBenefits.length)
+))
+}});
+
+define({id: "83f38939", mode: "inline", inputs: ["resize","GrantsByConvenerPlot","grantsByConvener","display"], body: async (resize,GrantsByConvenerPlot,grantsByConvener,display) => {
+display(await(
+resize((width) =>
+        GrantsByConvenerPlot(grantsByConvener, {
+          width,
+          marginBottom: 35,
+          marginLeft: 0,
+          marginRight: 5,
+          x: {
+            label: "Millones €",
+            transform: (d) => d / 1000000,
+          },
+          y: {
+            padding: 0.2,
+            label: "Organismo",
+          },
+        })
+      )
+))
+}});
+
+define({id: "613fcbe3", mode: "inline", inputs: ["resize","YearlyPlot","stats","display"], body: async (resize,YearlyPlot,stats,display) => {
+display(await(
+resize((width) =>
+        YearlyPlot(stats.grant_amount_per_year, {
+          width,
+          marginRight: 0,
+          marginLeft: 0,
+          y: {
+            label: "Millones €",
+            transform: (d) => d / 1000000
+          }
+        })
+      )
+))
+}});
+
+define({id: "eefdcd0a", mode: "inline", inputs: ["resize","DailyPlot","grantsByDay","display"], body: async (resize,DailyPlot,grantsByDay,display) => {
+display(await(
+resize((width) =>
+        DailyPlot(grantsByDay, {
+          width,
+          marginRight: 40,
+          x: {label: "Fecha"},
+          y: {label: "Euros"},
+        })
+      )
+))
+}});
+
+define({id: "3487351b", mode: "inline", inputs: ["searchInput","display"], body: async (searchInput,display) => {
+display(await(
+searchInput
+))
+}});
+
+define({id: "e7d9e4d0", mode: "inline", inputs: ["grantTableInput","display"], body: async (grantTableInput,display) => {
+display(await(
+grantTableInput
+))
+}});
+
+define({id: "70351331", mode: "inline", inputs: ["Display","tableSelection","display"], body: async (Display,tableSelection,display) => {
+display(await(
+Display.grantSelection(tableSelection)
+))
+}});
+
+define({id: "f6a99180", mode: "inline", inputs: ["stats","display"], body: async (stats,display) => {
+display(await(
+stats.build_date
 ))
 }});
 
 </script>
 <div id="observablehq-center">
-<header id="observablehq-header">
-<div style="text-align: end;"><img src="./_file/assets/images/logo_gisteiz.61380bd7.svg" height="60px"></div>
-</header>
 <main id="observablehq-main" class="observablehq">
-<h1 id="subvenciones-en-euskadi" tabindex="-1"><a class="observablehq-header-anchor" href="#subvenciones-en-euskadi">Subvenciones en Euskadi</a></h1>
-<p>Datos obtenidos de la API de subvenciones concedidas del portal <a href="https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/" target="_blank" rel="noopener noreferrer">Open Data Euskadi</a>.</p>
-<div class="observablehq observablehq--block"><!--:036ea3cb:--></div>
-<div class="observablehq observablehq--block"><!--:d5aea175:--></div>
-<div class="observablehq observablehq--block"><!--:f8301b0c:--></div>
-<div class="grid grid-cols-1">
-  <div class="card"><observablehq-loading></observablehq-loading><!--:7fbe20c6:--></div>
-</div></main>
+<div class="row">
+  <div class="grid grid-cols-1">
+    <h1 style="max-width: 840px">Subvenciones en Euskadi | <small> Desde <observablehq-loading></observablehq-loading><!--:f204e34b:--> hasta <observablehq-loading></observablehq-loading><!--:86b3aeda:--></small></h1>
+  </div>
+</div>
+<hr>
+<div class="observablehq observablehq--block"><!--:72e644b8:--></div>
+<div class="observablehq observablehq--block"><!--:71b99c87:--></div>
+<div class="observablehq observablehq--block"><!--:ad5d5cb6:--></div>
+<div class="observablehq observablehq--block"><!--:6709c38e:--></div>
+<div class="observablehq observablehq--block"><!--:210898ec:--></div>
+<div class="observablehq observablehq--block"><!--:72480863:--></div>
+<div class="observablehq observablehq--block"><!--:dfbbdedb:--></div>
+<style type="text/css">
+
+#observablehq-footer {
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.card {
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.indicator-number {
+  color: #1c4da9;
+  font-weight: bold;
+  font-size: 2.4em;
+}
+
+</style>
+<div class="row indicators">
+  <div class="grid grid-cols-4">
+    <div class="grid-colspan-2" style="grid-auto-rows: auto;">
+      <h3 style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</h3> 
+      Datos obtenidos de la API de subvenciones concedidas del portal <a href="https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/" target="_blank" rel="noopener noreferrer">Open Data Euskadi</a>.
+    </div>
+    <div class="card" style="text-align: right;">
+      <h2>Cantidad concedida</h2>
+      <p class="indicator-number" style="margin-bottom: 10px; margin-bottom: 0px;">
+        <observablehq-loading></observablehq-loading><!--:382cd89f:-->
+      </p>
+      <p class="muted" style="margin-top: 5px;">millones €</p>
+    </div>
+    <div class="card" style="text-align: right;">
+      <h2>Número de subvenciones</h2>
+      <p class="indicator-number" style="margin-bottom: 10px; margin-bottom: 0px;">
+        <observablehq-loading></observablehq-loading><!--:5c8843bf:-->
+      </p>
+    </div>
+  </div>
+</div>
+<div class="row charts">
+  <div class="grid grid-cols-4">
+    <div class="card" style="overflow: auto;">
+      <h2>Concesión por Organismo</h2>
+      <observablehq-loading></observablehq-loading><!--:83f38939:-->
+    </div>
+    <div class="card">
+      <h2>Concedido por año</h2>
+      <observablehq-loading></observablehq-loading><!--:613fcbe3:-->
+    </div>
+    <div class="card grid-colspan-2">
+      <h2>Concedido por día</h2>
+      <observablehq-loading></observablehq-loading><!--:eefdcd0a:-->
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-4" style="margin-top: 30px;">
+  <div class="card grid-colspan-3">
+    <p><observablehq-loading></observablehq-loading><!--:3487351b:--></p>
+    <div><observablehq-loading></observablehq-loading><!--:e7d9e4d0:--></div>
+  </div>
+  <div class="card grid-cols-1" style="grid-auto-rows: auto;"><observablehq-loading></observablehq-loading><!--:70351331:--></div>
+</div>
+<div class="grid grid-cols-1" style="grid-auto-rows: auto;">
+    <row>
+      <div style="float: right; text-align: right">
+        <p><small>Última actualización: <observablehq-loading></observablehq-loading><!--:f6a99180:--></small></p>
+        <span><img src="./_file/assets/images/logo_gisteiz.61380bd7.svg" height="60px"></span>
+      </div>
+    </row>
+</div>
+</main>
 <footer id="observablehq-footer">
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a>. Developed by GISteiz.</div>
+<div><row>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a>. Desarrollado por <a href="https://gisteiz.github.io/" target="_blank" rel="noopener noreferrer">GISteiz</a>. Si encuentras algún problema o quieres contribuir, puedes hacerlo en <a href="https://github.com/GISteiz/subvenciones-euskadi" target="_blank" rel="noopener noreferrer">GitHub</a>.</row></div>
 </footer>
 </div>
