@@ -4,10 +4,10 @@ This is an [Observable Framework](https://observablehq.com/framework) app.
 
 ## Local setup
 
-After cloning the repo, run:
+After cloning the repo, install all the dependencies in your project running:
 
 ```
-npm run install
+npm install
 ```
 
 To start the local preview server, run:
@@ -53,6 +53,8 @@ Add `deploy-github` script to `package.json` (already done in this repo):
   "deploy-github": "gh-pages -d dist"
 }
 ```
+
+Create an empty `.nojekyll` file in `dist` folder (and a README file if desired -this is currently gitignored by the repo-).
 
 Run script (then enable github pages publicly):
 
