@@ -2,6 +2,7 @@ import * as htl from "npm:htl";
 import * as hp from "./helpers.js";
 
 export const Display = {
+
   grantSelection: function (selection) {
     if (selection) {
       //console.log(selection['oid'])
@@ -11,7 +12,7 @@ export const Display = {
           ${selection['beneficiary_id']}
           <p>Subvencion: ${selection['name']}</p>
           <p>Convocante: ${selection['convener_name']}</p>
-          <p>Cantidad: ${hp.numberToLocaleString(selection['granted_amount'])} €</p>
+          <p>Cantidad: <span class="indicator-number">${hp.numberToLocaleString(selection['granted_amount'])} €</span></p>
           <p>Fecha: ${new Date(selection['granted_date']).toLocaleDateString("es-ES")}</p>
         </div>`
     }

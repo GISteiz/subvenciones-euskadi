@@ -1,6 +1,20 @@
 import * as Plot from "npm:@observablehq/plot";
 import * as hp from "../helpers.js";
 
+/**
+ * Returns a bar chart showing a yearly summary of the given data.
+ *
+ * Data should be an array of objects with the following properties:
+ * - year: the year of the data point
+ * - value: the value of the data point
+ *
+ * Options:
+ * - round: if true (default), rounds bar values to the nearest integer (disabled)
+ *
+ * @param {Object[]} data - array of data points
+ * @param {Object} options - options object
+ * @returns {Plot} - a Plot instance
+ */
 export function YearlyPlot(data, { round = true, ...options } = {}) {
   return Plot.plot({
     ...options,
@@ -22,7 +36,12 @@ export function YearlyPlot(data, { round = true, ...options } = {}) {
         dx: 30, // offset right
         dy: -6, // offset up
       }),
-      Plot.axisX({labelArrow: "none", tickSize: 0, label: null}),
+      Plot.axisX({
+        labelArrow: "none",
+        tickSize: 0,
+        label: null,
+        tickFormat: (d) => `${hp.numberToLocaleString(d)}`
+      }),
       Plot.barY(data, {
         x: "year",
         y: "value",

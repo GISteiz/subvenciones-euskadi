@@ -10,6 +10,13 @@ export function round2(num) {
 }
 
 
+/**
+ * Formats a number according to the locale, with the possibility to divide by a given amount and add a suffix
+ * @param {number} n - number to format
+ * @param {string} amount - amount to divide the number, either 'millones' or 'miles'
+ * @param {boolean} [suffix=false] - whether to add the amount as a suffix
+ * @returns {string} - formatted number
+ */
 export function numberToLocaleString(n, amount, suffix=false) {
   if (amount == 'millones') {
     return round2(n / 1000000).toLocaleString("es-ES") + ' ' + (suffix ? amount : '')

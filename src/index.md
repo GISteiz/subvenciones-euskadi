@@ -10,10 +10,6 @@ toc: false
   </div>
 </div>
 
-<h3 style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</h3> 
-
-Datos obtenidos de la API de subvenciones concedidas del portal [Open Data Euskadi](https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/).
-
 ___
 
 ```js
@@ -30,17 +26,7 @@ import * as dict from "./components/dictionary.js";
 ```
 
 ```js
-console.log(new Date().toString());
 const json_input = await FileAttachment("./data/granted-benefits.json").json(); 
-let unzip = {}
-/*
-const zip = await FileAttachment("./data/granted-benefits.zip").zip();
-for (const i in zip.filenames) {
-  const filename = zip.filenames[i]
-  unzip[filename] = await zip.file(filename).json();
-}
-*/
-console.log(new Date().toString());
 ```
 
 ```js
@@ -54,22 +40,15 @@ let years = stats.year_range.map( y => y.toString() )
 // Data processing
 const grantsByConvener = d3
   .rollups(grantedBenefits, v => d3.sum(v, d => d.granted_amount), d => d.convener_name)
-  //.rollups(grantedBenefits, (d) => d.granted_amount, (v) => v.convener_name)
   .map(([name, value]) => ({name, value}))
   .sort((a, b) => d3.descending(a.value, b.value));
 
 const grantsByDay = d3
   .rollups(grantedBenefits, v => d3.sum(v, d => d.granted_amount), d => new Date(d.granted_date))
-  //.rollups(grantedBenefits, (d) => d.granted_amount, (v) => v.convener_name)
   .map(([date, value]) => ({date, value}))
-
-display(filteredData)
 ```
 
 ```js
-//TODO: add year and convener selectors
-//const dpdnConvenerSelectorInput = Inputs.select(grantedBenefits.map(d => d.convener_name), {sort: true, unique: true, label: "Organismo"})
-
 const yearSelectInput = YearSelect(years, Inputs);
 const yearSelection = Generators.input(yearSelectInput);
 ```
@@ -86,60 +65,42 @@ const grantTableInput = GrantTable(filteredData, Inputs)
 const tableSelection = Generators.input(grantTableInput);
 ```
 
-```js
-// Event handlers
-/*
-yearSelectInput.oninput = (event, filteredData) => {
-  if (!event.bubbles) return;
-  filteredData = grantedBenefits.filter(function(grant) {
-    if (yearSelection == 'Seleccionar año') return true
-    if (grant.year == yearSelection) return true
-    return false
-    debugger
-  })
-  filteredData.dispatchEvent(new Event("input"));
+<style type="text/css">
+
+#observablehq-footer {
+  font-family: "Open Sans", Arial, sans-serif;
 }
-*/
-```
 
-
-```js
-/*
-//debugger
-display('json:')
-display(json_input)
-
-if (Object.keys(unzip).length > 0) {
-  display('zip')
-  display(unzip)
+.card {
+  font-family: "Open Sans", Arial, sans-serif;
 }
-//display(grantsByConvener)
-//display(d3.group(grantedBenefits, d => d.convener_name))
-*/
-```
+
+.indicator-number {
+  color: #1c4da9;
+  font-weight: bold;
+  font-size: 2.4em;
+}
+
+</style>
 
 <div class="row indicators">
   <div class="grid grid-cols-4">
-    <div class="card">
-      <h2>Cantidad aportada</h2>
-      <p class="big" style="margin-bottom: 5px;">
+    <div class="grid-colspan-2" style="grid-auto-rows: auto;">
+      <h3 style="color: red">Aplicación en fase de pruebas, algunos datos pueden ser incorrectos</h3> 
+      Datos obtenidos de la API de subvenciones concedidas del portal <a href="https://opendata.euskadi.eus/api-granted-benefits/?api=granted-benefit/">Open Data Euskadi</a>.
+    </div>
+    <div class="card" style="text-align: right;">
+      <h2>Cantidad concedida</h2>
+      <p class="indicator-number" style="margin-bottom: 10px; margin-bottom: 0px;">
         ${hp.numberToLocaleString(d3.sum(grantedBenefits, d => d.granted_amount), 'millones')}
       </p>
       <p class="muted" style="margin-top: 5px;">millones €</p>
     </div>
-    <div class="card">
+    <div class="card" style="text-align: right;">
       <h2>Número de subvenciones</h2>
-      <p class="big">
+      <p class="indicator-number" style="margin-bottom: 10px; margin-bottom: 0px;">
         ${hp.numberToLocaleString(grantedBenefits.length)}
       </p>
-    </div>
-    <div class="card">
-      <h2>placeholder for indicator</h2>
-    </div>
-    <div class="card">
-      <h2>Filtros</h2>
-      ${yearSelectInput}
-      ${yearSelection}
     </div>
   </div>
 </div>
@@ -147,7 +108,7 @@ if (Object.keys(unzip).length > 0) {
 <div class="row charts">
   <div class="grid grid-cols-4">
     <div class="card" style="overflow: auto;">
-      <h2>Subvenciones por Organismo</h2>
+      <h2>Concesión por Organismo</h2>
       ${resize((width) =>
         GrantsByConvenerPlot(grantsByConvener, {
           width,
@@ -186,7 +147,7 @@ if (Object.keys(unzip).length > 0) {
           width,
           marginRight: 40,
           x: {label: "Fecha"},
-          //y: {label: "Concedido"},
+          y: {label: "Euros"},
         })
       )}
     </div>

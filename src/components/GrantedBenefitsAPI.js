@@ -72,8 +72,11 @@ export default async function getData(elements, init_year) {
     if (id.match(/^\d{8}[A-Z]$/)) {
       return "DNI"
     }
-    else if (id.match(/^\[A-Z]d{7}[A-Z]$/)) {
+    else if (id.match(/^\[Y-Z]d{7}[A-Z]$/)) {
       return "NIE"
+    }
+    else if (id.match(/^\[A-W]d{7}[A-Z]$/)) {
+      return "NIF"
     }
     else {
       return "other"
@@ -118,10 +121,14 @@ export default async function getData(elements, init_year) {
     // check if beneficiary_id is DNI or NIE
     // DNI format is 12345678X - should be ***4567**
     // NIE format is L1234567X - should be ****4567*
-    
-    if (identifyIdFormat(grant.beneficiary_id) == 'DNI') {
-      grant.beneficiary_id = '***' + grant.beneficiary_id.substring(4, 7) + '*'
+    const idFormat = identifyIdFormat(grant.beneficiary_id)
+    if (idFormat == 'DNI') {
+      grant.beneficiary_id = '***' + grant.beneficiary_id.substring(4, 7) + '**'
       //grant.beneficiary_uid = grant.beneficiary_id + '_' + anonymizeName(grant.beneficiary_name)
+      grant.beneficiary_name = '*********'
+    }
+    else if (idFormat == 'NIE') {
+      grant.beneficiary_id = '****' + grant.beneficiary_id.substring(5, 8) + '*'
       grant.beneficiary_name = '*********'
     }
     //else {
@@ -253,7 +260,7 @@ export default async function getData(elements, init_year) {
     }
   })
 
-  // CAUTION - ID MIGHT NOT BE UNIQUE !!!
+  // CAUTION - ID MIGHT NOT BE UNIQUE due to ***!!!
   stats['beneficiary_top100'] = Object.keys(stats['beneficiary_index']).map(beneficiary_id => [
     beneficiary_id, allGrants
       .filter(grant => grant.beneficiary_id == beneficiary_id)

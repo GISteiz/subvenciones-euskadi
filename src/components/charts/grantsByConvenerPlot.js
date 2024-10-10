@@ -2,8 +2,21 @@ import * as Plot from "npm:@observablehq/plot";
 import * as hp from "../helpers.js";
 import * as dict from "../dictionary.js";
 
-
-
+/**
+ * Returns a bar chart showing a list of organisms with the amount of
+ * subventions granted to each one.
+ *
+ * Data should be an array of objects with the following properties:
+ * - name: the name of the organism
+ * - value: the amount granted to the organism
+ *
+ * Options:
+ * - none
+ *
+ * @param {Object[]} data - array of data points
+ * @param {Object} options - options object
+ * @returns {Plot} - a Plot instance
+ */
 export function GrantsByConvenerPlot(data, {...options } = {}) {
   return Plot.plot({
     ...options,
@@ -21,13 +34,7 @@ export function GrantsByConvenerPlot(data, {...options } = {}) {
         fill: "#568bea",
         dx: 0,
         dy: 0,
-        textAnchor: "start",
-        tip: {
-          fontSize: 12,
-          format: {
-            x: (d) => `${hp.numberToLocaleString(d)}` 
-          }
-        }
+        textAnchor: "start"
       }),
               
       Plot.axisX({
@@ -39,13 +46,21 @@ export function GrantsByConvenerPlot(data, {...options } = {}) {
         label: null,
         fontSize: 12,
         tickSize: 0, // don’t draw ticks
-        tickFormat: (d) => dict.shortNames[d] || d,
+        tickFormat: (d) => '', // (dict.shortNames[d] || d),
         textAnchor: "start",
         dy: 0,
         dx: 20
       }),
-      Plot.ruleX([0])
-      //Plot.tip(grantsByConvener, Plot.pointerX({x: "value", y: "name"}))
+      Plot.ruleX([0]),
+      Plot.text(data, {
+        x: 0,
+        y: "name",
+        fontSize: 12,
+        text: (d) => (dict.shortNames[d.name] || d.name) + ': ' + hp.numberToLocaleString(d.value, 'millones'),
+        textAnchor: "start",
+        dx: 10
+      }),
+
     ]
   })
 }
