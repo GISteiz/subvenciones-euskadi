@@ -17,15 +17,18 @@ export default {
   // ],
 
   // Content to add to the head of the page, e.g. for a favicon:
-  head: '<link rel="icon" href="assets/images/observable.png" type="image/png" sizes="32x32">',
+  head: '<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" sizes="32x32">',
 
   // The path to the source root.
   root: "src",
 
   // Some additional configuration options and their defaults:
   // theme: "dashboard", // try "light", "dark", "slate", etc.
-  header: "<div style='text-align: end;'><img src='assets/images/logo_gisteiz.svg' height='60px'></div>", // what to show in the header (HTML)
-  footer: "Built with <a href='https://observablehq.com/' target='_blank' rel='noopener noreferrer'>Observable</a>. Developed by GISteiz.", // what to show in the footer (HTML)
+  // header: "<h1>Subvenciones en Euskadi</h1>", // what to show in the header (HTML)
+  // footer: ''
+  //footer: ({path}) => `<a href="https://github.com/example/test/blob/main/src${path}.md?plain=1">view source</a>`,
+  // footer: '<row style="height: 40px; background-color: #1c4da9"></row>'
+  footer: "<row>Built with <a href='https://observablehq.com/' target='_blank' rel='noopener noreferrer'>Observable</a>. Desarrollado por <a href='https://gisteiz.github.io/' target='_blank'>GISteiz</a>. Si encuentras algún problema o quieres contribuir, puedes hacerlo en <a href='https://github.com/GISteiz/subvenciones-euskadi' target='_blank' rel='noopener noreferrer'>GitHub</a>." //<div style='text-align: end;'><img src='assets/images/logo_gisteiz.svg' height='60px'/></div></row>", // what to show in the footer (HTML)
   // sidebar: true, // whether to show the sidebar
   // toc: true, // whether to show the table of contents
   // pager: true, // whether to show previous & next links in the footer
