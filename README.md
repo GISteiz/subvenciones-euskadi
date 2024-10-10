@@ -4,10 +4,10 @@ This is an [Observable Framework](https://observablehq.com/framework) app.
 
 ## Local setup
 
-After cloning the repo, run:
+After cloning the repo, install all the dependencies in your project running:
 
 ```
-npm run install
+npm install
 ```
 
 To start the local preview server, run:
