@@ -146,7 +146,7 @@ export default async function getData(elements, init_year) {
   function extractGrantData(grant) {
 
     let out = {
-      "uid": grant["oid"],
+      //"uid": grant["oid"],
       "grant_id": grant["benefitId"],
       "name": grant["nameByLang"]["SPANISH"],
       "convener_name": grant["convener"]["organization"]["nameByLang"]["SPANISH"],

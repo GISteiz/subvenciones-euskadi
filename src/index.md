@@ -26,7 +26,14 @@ import * as dict from "./components/dictionary.js";
 ```
 
 ```js
-const json_input = await FileAttachment("./data/granted-benefits.json").json(); 
+//const json_input = await FileAttachment("./data/granted-benefits.json").json();
+let unzip = {}
+const zip = await FileAttachment("./data/granted-benefits.zip").zip();
+for (const i in zip.filenames) {
+  const filename = zip.filenames[i]
+  unzip[filename] = await zip.file(filename).json();
+}
+const json_input = unzip['granted-benefits.json']
 ```
 
 ```js

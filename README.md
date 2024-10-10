@@ -54,6 +54,8 @@ Add `deploy-github` script to `package.json` (already done in this repo):
 }
 ```
 
+Create an empty `.nojekyll` file in `dist` folder (and a README file if desired -this is currently gitignored by the repo-).
+
 Run script (then enable github pages publicly):
 
 ```
