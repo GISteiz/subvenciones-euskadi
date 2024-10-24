@@ -174,7 +174,7 @@ const tableSelection = Generators.input(grantTableInput);
 <div class="grid grid-cols-1" style="grid-auto-rows: auto;">
     <row>
       <div style="float: right; text-align: right">
-        <p><small>Última actualización: ${stats.build_date}</small></p>
+        <p><small>Última actualización: ${hp.getMonthYearDate(stats.build_date)}</small></p>
         <span><img src='assets/images/logo_gisteiz.svg' height='60px'/></span>
       </div>
     </row>

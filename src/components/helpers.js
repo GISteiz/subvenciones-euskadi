@@ -28,3 +28,9 @@ export function numberToLocaleString(n, amount, suffix=false) {
     return round2(n).toLocaleString("es-ES")
   }
 }
+
+export function getMonthYearDate(dateStr) {
+  const date = dateStr.split('/')
+  const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+  return `${months[date[1]-1]} de ${date[2]}`
+}
