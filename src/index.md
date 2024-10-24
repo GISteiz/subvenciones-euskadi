@@ -40,7 +40,7 @@ ___
 
 <div class="row">
   <div class="grid grid-cols-2">
-    <a href="https://github.com/GISteiz/subvenciones-euskadi">
+    <a href="/visor">
       <div class="card grid-cols-1" style="text-align: center;">
         <img src='assets/images/portada.png' height='300px' alt=""/>
         Accede al visor
