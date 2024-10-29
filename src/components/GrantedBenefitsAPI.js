@@ -5,7 +5,7 @@
  * @returns {Promise<Object>} - object containing relevant stats and an array of minified grant objects
  * @throws {Error}
  */
-export default async function getData(elements, init_year) { 
+export async function getData(elements, init_year, last_year) { 
 
   /**
    * Fetches JSON from a given URL with a default timeout of 3 seconds.
@@ -186,7 +186,7 @@ export default async function getData(elements, init_year) {
 
   // populate years array
   const now = new Date(Date.now());
-  const last_year = now.getFullYear()
+  last_year = last_year || now.getFullYear()
   for (let year = init_year; year <= last_year; year++) {
     years.push(year)
   }
@@ -218,38 +218,38 @@ export default async function getData(elements, init_year) {
    * unique beneficiaries - beneficiary index (id: name)
    * top 100 amount by beneficiary
    */
-  stats['build_date'] = now.toLocaleString('es-ES').split(',')[0]
+  //stats['build_date'] = now.toLocaleString('es-ES').split(',')[0]
   stats['year_range'] = years
   stats['total_grant_count'] = allGrants.length
-  stats['grant_count_per_year'] = years.map(function (year) {
-    return {
-      year: year,
-      value: allGrants.filter(grant => grant.year == year).length
-    }
-  })
+  //stats['grant_count_per_year'] = years.map(function (year) {
+  //  return {
+  //    year: year,
+  //    value: allGrants.filter(grant => grant.year == year).length
+  //  }
+  //})
   stats['total_grant_amount'] = allGrants.reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
-  stats['grant_amount_per_year'] = years.map(function (year) {
-    return {
-      year,
-      value: allGrants.filter(grant => grant.year == year).reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
-    }
-  })
+  //stats['grant_amount_per_year'] = years.map(function (year) {
+  //  return {
+  //    year,
+  //    value: allGrants.filter(grant => grant.year == year).reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
+  //  }
+  //})
   
-  stats['convener_index'] = {}
-  allGrants.map(grant => { 
-    if (!stats['convener_index'][grant.convener_id]) {
-      stats['convener_index'][grant.convener_id] = grant.convener_name
-    }
-  })
+  //stats['convener_index'] = {}
+  //allGrants.map(grant => { 
+  //  if (!stats['convener_index'][grant.convener_id]) {
+  //    stats['convener_index'][grant.convener_id] = grant.convener_name
+  //  }
+  //})
 
-  stats['grant_amount_by_convener'] = Object.keys(stats['convener_index']).map(function (convener_id) {
-    return {
-      convener_id: convener_id,
-      value: allGrants
-        .filter(grant => grant.convener_id == convener_id)
-        .reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
-    }
-  })//.sort((a, b) => b[1] - a[1])
+  //stats['grant_amount_by_convener'] = Object.keys(stats['convener_index']).map(function (convener_id) {
+  //  return {
+  //    convener_id: convener_id,
+  //    value: allGrants
+  //      .filter(grant => grant.convener_id == convener_id)
+  //      .reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
+  //  }
+  //})//.sort((a, b) => b[1] - a[1])
 
   //TODO: grant_amount_by_convener_per_year
 /*
@@ -275,4 +275,8 @@ export default async function getData(elements, init_year) {
     "granted-benefits": allGrants
   }
 
+}
+
+export default async function getDataByYear(elements, year) {
+  return await getData(elements, year, year)
 }
