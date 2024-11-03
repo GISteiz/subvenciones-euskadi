@@ -6,7 +6,7 @@ toc: false
 
 <div class="row">
   <div class="grid grid-cols-1">
-    <h1 style="max-width: 840px">Subvenciones en Euskadi | <small> Desde ${Math.min(...stats.year_range)} hasta ${Math.max(...stats.year_range)}</small></h1>
+    <h1 style="max-width: 840px">Subvenciones en Euskadi | <small> Desde ${Math.min(...config.years)} hasta ${Math.max(...config.years)}</small></h1>
   </div>
 </div>
 
@@ -26,21 +26,55 @@ import * as dict from "./components/dictionary.js";
 ```
 
 ```js
-//const json_input = await FileAttachment("./data/granted-benefits.json").json();
-let unzip = {}
-const zip = await FileAttachment("./data/granted-benefits.zip").zip();
-for (const i in zip.filenames) {
-  const filename = zip.filenames[i]
-  unzip[filename] = await zip.file(filename).json();
-}
-const json_input = unzip['granted-benefits.json']
+const config = await FileAttachment("./data/config.json").json();
+const responses = {}
+responses['2015'] = await FileAttachment("./data/granted-benefits_2015.json").json();
+responses['2016'] = await FileAttachment("./data/granted-benefits_2016.json").json();
+responses['2017'] = await FileAttachment("./data/granted-benefits_2017.json").json();
+responses['2018'] = await FileAttachment("./data/granted-benefits_2018.json").json();
+responses['2019'] = await FileAttachment("./data/granted-benefits_2019.json").json();
+responses['2020'] = await FileAttachment("./data/granted-benefits_2020.json").json();
+responses['2021'] = await FileAttachment("./data/granted-benefits_2021.json").json();
+responses['2022'] = await FileAttachment("./data/granted-benefits_2022.json").json();
+responses['2023'] = await FileAttachment("./data/granted-benefits_2023.json").json();
+responses['2024'] = await FileAttachment("./data/granted-benefits_2024.json").json();
 ```
 
 ```js
-// Global variables
-let stats = json_input['stats']
-let grantedBenefits = json_input['granted-benefits']
-let years = stats.year_range.map( y => y.toString() ) 
+// process `responses` by year
+let years = config.years//.map( y => y.toString() ) 
+let grantedBenefits = [] 
+
+// gather all grants
+console.log(years)
+for (const i in years) {
+  const year = years[i]
+  grantedBenefits = grantedBenefits.concat(responses[year]['granted-benefits'])
+}
+```
+
+```js
+// calculate stats
+let stats = {}
+stats['total_grant_count'] = grantedBenefits.length
+stats['grant_count_per_year'] = years.map(function(year) {
+  return {
+    year: year,
+    value: grantedBenefits.filter(grant => grant.year == year).length
+  }
+})
+stats['total_grant_amount'] = grantedBenefits.reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
+stats['grant_amount_per_year'] = years.map(function (year) {
+  return {
+    year,
+    value: grantedBenefits.filter(grant => grant.year == year).reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
+  }
+})
+
+```
+
+```js
+//years = config.years.map( y => y.toString() ) 
 ```
 
 ```js
@@ -174,7 +208,7 @@ const tableSelection = Generators.input(grantTableInput);
 <div class="grid grid-cols-1" style="grid-auto-rows: auto;">
     <row>
       <div style="float: right; text-align: right">
-        <p><small>Última actualización: ${stats.build_date}</small></p>
+        <p><small>Última actualización: ${hp.getMonthYearDate(config.build_date)}</small></p>
         <span><img src='assets/images/logo_gisteiz.svg' height='60px'/></span>
       </div>
     </row>
