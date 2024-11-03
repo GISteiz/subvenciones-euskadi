@@ -13,23 +13,21 @@
 <link rel="modulepreload" href="./_observablehq/client.5890f157.js">
 <link rel="modulepreload" href="./_observablehq/runtime.ad036670.js">
 <link rel="modulepreload" href="./_observablehq/stdlib.14bb5491.js">
-<link rel="modulepreload" href="./_import/components/charts/yearlyPlot.efa8695c.js">
-<link rel="modulepreload" href="./_import/components/charts/dailyPlot.f2b8d2e2.js">
-<link rel="modulepreload" href="./_import/components/charts/grantsByConvenerPlot.75829670.js">
-<link rel="modulepreload" href="./_import/components/inputs/grantSearch.8c7efb68.js">
-<link rel="modulepreload" href="./_import/components/inputs/grantTable.525c6fb6.js">
+<link rel="modulepreload" href="./_import/components/charts/yearlyPlot.0a20d088.js">
+<link rel="modulepreload" href="./_import/components/charts/dailyPlot.078a2d95.js">
+<link rel="modulepreload" href="./_import/components/charts/grantsByConvenerPlot.876afdb9.js">
+<link rel="modulepreload" href="./_import/components/inputs/grantSearch.c9efa09f.js">
+<link rel="modulepreload" href="./_import/components/inputs/grantTable.beff949e.js">
 <link rel="modulepreload" href="./_import/components/inputs/yearSelect.c04b7b7b.js">
-<link rel="modulepreload" href="./_import/components/display.b15552ef.js">
-<link rel="modulepreload" href="./_import/components/helpers.54912903.js">
+<link rel="modulepreload" href="./_import/components/display.fcfd1cfa.js">
+<link rel="modulepreload" href="./_import/components/helpers.7480c0b4.js">
 <link rel="modulepreload" href="./_import/components/dictionary.1fe078c9.js">
 <link rel="modulepreload" href="./_npm/@observablehq/plot@0.6.16/e828d8c8.js">
 <link rel="modulepreload" href="./_npm/htl@0.3.1/063eb405.js">
-<link rel="modulepreload" href="./_import/components/charts/sparkbar.a85781b0.js">
+<link rel="modulepreload" href="./_import/components/charts/sparkbar.e2c4d429.js">
 <link rel="modulepreload" href="./_npm/d3@7.9.0/7055d4c5.js">
-<link rel="modulepreload" href="./_observablehq/stdlib/zip.1474210c.js">
 <link rel="modulepreload" href="./_observablehq/stdlib/inputs.84591b8f.js">
 <link rel="modulepreload" href="./_npm/isoformat@0.2.1/c68fbd73.js">
-<link rel="modulepreload" href="./_npm/jszip@3.10.1/c7801ba4.js">
 <link rel="modulepreload" href="./_npm/interval-tree-1d@1.0.4/a62ae5ce.js">
 <link rel="modulepreload" href="./_npm/d3-array@3.2.4/e95f898e.js">
 <link rel="modulepreload" href="./_npm/d3-axis@3.0.0/d44feff9.js">
@@ -71,45 +69,90 @@
 import {define} from "./_observablehq/client.5890f157.js";
 import {registerFile} from "./_observablehq/stdlib.14bb5491.js";
 
-registerFile("./data/granted-benefits.zip", {"name":"./data/granted-benefits.zip","mimeType":"application/zip","path":"./_file/data/granted-benefits.2e7e9fba.zip","lastModified":1728528440955,"size":91859052});
+registerFile("./data/config.json", {"name":"./data/config.json","mimeType":"application/json","path":"./_file/data/config.d54278d0.json","lastModified":1730224351969,"size":87});
+registerFile("./data/granted-benefits_2015.json", {"name":"./data/granted-benefits_2015.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2015.1dcd2e31.json","lastModified":1730221358028,"size":17805734});
+registerFile("./data/granted-benefits_2016.json", {"name":"./data/granted-benefits_2016.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2016.a2c04995.json","lastModified":1730221392314,"size":20703077});
+registerFile("./data/granted-benefits_2017.json", {"name":"./data/granted-benefits_2017.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2017.82459ff4.json","lastModified":1730221466775,"size":36088455});
+registerFile("./data/granted-benefits_2018.json", {"name":"./data/granted-benefits_2018.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2018.047965ff.json","lastModified":1730221562028,"size":40203345});
+registerFile("./data/granted-benefits_2019.json", {"name":"./data/granted-benefits_2019.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2019.198e4979.json","lastModified":1730221756116,"size":69935248});
+registerFile("./data/granted-benefits_2020.json", {"name":"./data/granted-benefits_2020.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2020.7d22d1ba.json","lastModified":1730221816548,"size":28408934});
+registerFile("./data/granted-benefits_2021.json", {"name":"./data/granted-benefits_2021.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2021.14a013ff.json","lastModified":1730221909958,"size":41538707});
+registerFile("./data/granted-benefits_2022.json", {"name":"./data/granted-benefits_2022.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2022.9e3cd3cf.json","lastModified":1730221912096,"size":1115052});
+registerFile("./data/granted-benefits_2023.json", {"name":"./data/granted-benefits_2023.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2023.cca5bf6e.json","lastModified":1730221027908,"size":2937847});
+registerFile("./data/granted-benefits_2024.json", {"name":"./data/granted-benefits_2024.json","mimeType":"application/json","path":"./_file/data/granted-benefits_2024.d2de93c8.json","lastModified":1730221028347,"size":124185});
 
-define({id: "f204e34b", mode: "inline", inputs: ["stats","display"], body: async (stats,display) => {
+define({id: "3c93ed0c", mode: "inline", inputs: ["config","display"], body: async (config,display) => {
 display(await(
-Math.min(...stats.year_range)
+Math.min(...config.years)
 ))
 }});
 
-define({id: "86b3aeda", mode: "inline", inputs: ["stats","display"], body: async (stats,display) => {
+define({id: "f8b425a7", mode: "inline", inputs: ["config","display"], body: async (config,display) => {
 display(await(
-Math.max(...stats.year_range)
+Math.max(...config.years)
 ))
 }});
 
 define({id: "72e644b8", outputs: ["YearlyPlot","DailyPlot","GrantsByConvenerPlot","GrantSearch","GrantTable","YearSelect","Display","hp","dict"], body: async () => {
-const [{YearlyPlot}, {DailyPlot}, {GrantsByConvenerPlot}, {GrantSearch}, {GrantTable}, {YearSelect}, {Display}, hp, dict] = await Promise.all([import("./_import/components/charts/yearlyPlot.efa8695c.js"), import("./_import/components/charts/dailyPlot.f2b8d2e2.js"), import("./_import/components/charts/grantsByConvenerPlot.75829670.js"), import("./_import/components/inputs/grantSearch.8c7efb68.js"), import("./_import/components/inputs/grantTable.525c6fb6.js"), import("./_import/components/inputs/yearSelect.c04b7b7b.js"), import("./_import/components/display.b15552ef.js"), import("./_import/components/helpers.54912903.js"), import("./_import/components/dictionary.1fe078c9.js")]);
+const [{YearlyPlot}, {DailyPlot}, {GrantsByConvenerPlot}, {GrantSearch}, {GrantTable}, {YearSelect}, {Display}, hp, dict] = await Promise.all([import("./_import/components/charts/yearlyPlot.0a20d088.js"), import("./_import/components/charts/dailyPlot.078a2d95.js"), import("./_import/components/charts/grantsByConvenerPlot.876afdb9.js"), import("./_import/components/inputs/grantSearch.c9efa09f.js"), import("./_import/components/inputs/grantTable.beff949e.js"), import("./_import/components/inputs/yearSelect.c04b7b7b.js"), import("./_import/components/display.fcfd1cfa.js"), import("./_import/components/helpers.7480c0b4.js"), import("./_import/components/dictionary.1fe078c9.js")]);
 
 
 return {YearlyPlot,DailyPlot,GrantsByConvenerPlot,GrantSearch,GrantTable,YearSelect,Display,hp,dict};
 }});
 
-define({id: "71b99c87", inputs: ["FileAttachment"], outputs: ["unzip","zip","json_input"], body: async (FileAttachment) => {
-//const json_input = await FileAttachment("./data/granted-benefits.json").json();
-let unzip = {}
-const zip = await FileAttachment("./data/granted-benefits.zip").zip();
-for (const i in zip.filenames) {
-  const filename = zip.filenames[i]
-  unzip[filename] = await zip.file(filename).json();
-}
-const json_input = unzip['granted-benefits.json']
-return {unzip,zip,json_input};
+define({id: "6a57379e", inputs: ["FileAttachment"], outputs: ["config","responses"], body: async (FileAttachment) => {
+const config = await FileAttachment("./data/config.json").json();
+const responses = {}
+responses['2015'] = await FileAttachment("./data/granted-benefits_2015.json").json();
+responses['2016'] = await FileAttachment("./data/granted-benefits_2016.json").json();
+responses['2017'] = await FileAttachment("./data/granted-benefits_2017.json").json();
+responses['2018'] = await FileAttachment("./data/granted-benefits_2018.json").json();
+responses['2019'] = await FileAttachment("./data/granted-benefits_2019.json").json();
+responses['2020'] = await FileAttachment("./data/granted-benefits_2020.json").json();
+responses['2021'] = await FileAttachment("./data/granted-benefits_2021.json").json();
+responses['2022'] = await FileAttachment("./data/granted-benefits_2022.json").json();
+responses['2023'] = await FileAttachment("./data/granted-benefits_2023.json").json();
+responses['2024'] = await FileAttachment("./data/granted-benefits_2024.json").json();
+return {config,responses};
 }});
 
-define({id: "ad5d5cb6", inputs: ["json_input"], outputs: ["stats","grantedBenefits","years"], body: (json_input) => {
-// Global variables
-let stats = json_input['stats']
-let grantedBenefits = json_input['granted-benefits']
-let years = stats.year_range.map( y => y.toString() ) 
-return {stats,grantedBenefits,years};
+define({id: "0357b364", inputs: ["config","responses"], outputs: ["years","grantedBenefits"], body: (config,responses) => {
+// process `responses` by year
+let years = config.years//.map( y => y.toString() ) 
+let grantedBenefits = [] 
+
+// gather all grants
+console.log(years)
+for (const i in years) {
+  const year = years[i]
+  grantedBenefits = grantedBenefits.concat(responses[year]['granted-benefits'])
+}
+return {years,grantedBenefits};
+}});
+
+define({id: "7a56f76d", inputs: ["grantedBenefits","years"], outputs: ["stats"], body: (grantedBenefits,years) => {
+// calculate stats
+let stats = {}
+stats['total_grant_count'] = grantedBenefits.length
+stats['grant_count_per_year'] = years.map(function(year) {
+  return {
+    year: year,
+    value: grantedBenefits.filter(grant => grant.year == year).length
+  }
+})
+stats['total_grant_amount'] = grantedBenefits.reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
+stats['grant_amount_per_year'] = years.map(function (year) {
+  return {
+    year,
+    value: grantedBenefits.filter(grant => grant.year == year).reduce((accumulator, grant) => accumulator + grant.granted_amount, 0)
+  }
+})
+
+return {stats};
+}});
+
+define({id: "ec6a8080", body: () => {
+//years = config.years.map( y => y.toString() ) 
 }});
 
 define({id: "6709c38e", inputs: ["d3","grantedBenefits"], outputs: ["grantsByConvener","grantsByDay"], body: (d3,grantedBenefits) => {
@@ -225,9 +268,9 @@ Display.grantSelection(tableSelection)
 ))
 }});
 
-define({id: "f6a99180", mode: "inline", inputs: ["stats","display"], body: async (stats,display) => {
+define({id: "a34512ea", mode: "inline", inputs: ["hp","config","display"], body: async (hp,config,display) => {
 display(await(
-stats.build_date
+hp.getMonthYearDate(config.build_date)
 ))
 }});
 
@@ -236,13 +279,15 @@ stats.build_date
 <main id="observablehq-main" class="observablehq">
 <div class="row">
   <div class="grid grid-cols-1">
-    <h1 style="max-width: 840px">Subvenciones en Euskadi | <small> Desde <observablehq-loading></observablehq-loading><!--:f204e34b:--> hasta <observablehq-loading></observablehq-loading><!--:86b3aeda:--></small></h1>
+    <h1 style="max-width: 840px">Subvenciones en Euskadi | <small> Desde <observablehq-loading></observablehq-loading><!--:3c93ed0c:--> hasta <observablehq-loading></observablehq-loading><!--:f8b425a7:--></small></h1>
   </div>
 </div>
 <hr>
 <div class="observablehq observablehq--block"><!--:72e644b8:--></div>
-<div class="observablehq observablehq--block"><!--:71b99c87:--></div>
-<div class="observablehq observablehq--block"><!--:ad5d5cb6:--></div>
+<div class="observablehq observablehq--block"><!--:6a57379e:--></div>
+<div class="observablehq observablehq--block"><!--:0357b364:--></div>
+<div class="observablehq observablehq--block"><!--:7a56f76d:--></div>
+<div class="observablehq observablehq--block"><!--:ec6a8080:--></div>
 <div class="observablehq observablehq--block"><!--:6709c38e:--></div>
 <div class="observablehq observablehq--block"><!--:210898ec:--></div>
 <div class="observablehq observablehq--block"><!--:72480863:--></div>
@@ -311,7 +356,7 @@ stats.build_date
 <div class="grid grid-cols-1" style="grid-auto-rows: auto;">
     <row>
       <div style="float: right; text-align: right">
-        <p><small>Última actualización: <observablehq-loading></observablehq-loading><!--:f6a99180:--></small></p>
+        <p><small>Última actualización: <observablehq-loading></observablehq-loading><!--:a34512ea:--></small></p>
         <span><img src="./_file/assets/images/logo_gisteiz.61380bd7.svg" height="60px"></span>
       </div>
     </row>
